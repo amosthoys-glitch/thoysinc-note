@@ -9,7 +9,8 @@ import type { Lang } from './site';
  *   3. 게시된 주소를 여기 붙여 넣기
  * 비워 두면 상담 버튼이 이메일 링크로 대체됩니다.
  */
-export const BOOKING_URL = '';
+export const BOOKING_URL =
+	'https://outlook.office.com/bookwithme/user/63f386e3205b47609c1a78b50d85e933@thoysinc.com/meetingtype/LnxXzNQf2USG-rt9qi2yvQ2?anonymous';
 
 // 상담 문의는 회사 메일로 받습니다. 개인 지메일과 분리해 둡니다.
 export const EMAIL = 'amosjung@thoysinc.com';
