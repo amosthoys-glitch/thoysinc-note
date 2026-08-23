@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../data/site';
+import { href } from '../../lib/urls';
+
+const lang = 'en' as const;
+const s = SITE[lang];
+---
+
+<Base
+	lang={lang}
+	path="series"
+	section="series"
+	title={`Weekly column — ${s.brand}`}
+	description="A weekly retirement column running in an Arizona Korean-language newspaper. Published in Korean."
+>
+	<div class="section-head"><h2>Weekly column</h2></div>
+	<p class="lede">
+		I write a weekly retirement column for an Arizona Korean-language newspaper. Each installment
+		builds on the gap between what you spend and what Social Security will cover, closing it one
+		step at a time.
+	</p>
+	<p class="lede">
+		The column runs in Korean, for a Korean-speaking readership. It is reposted here after it
+		appears in print — <a href={href('ko', 'series')}>read the series in Korean</a>.
+	</p>
+	<p class="lede">
+		The English notes cover the same ground in a different form: <a href={href(lang)}>see all notes</a>.
+	</p>
+
+	<style>
+		.lede {
+			max-width: 58ch;
+			margin: 20px 0;
+			color: var(--ink-soft);
+		}
+	</style>
+</Base>

@@ -15,6 +15,12 @@ const s = SITE[lang];
 const slug = slugOf(note);
 const catLabel = s.cats[CATS.indexOf(note.data.cat)];
 const back = lang === 'ko' ? '← 목록으로' : '← Back to notes';
+
+// 연재물이면 신문 지면과 같은 표기("연재명 ①")를 제목 아래 붙입니다.
+const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳';
+const { series, episode } = note.data;
+const seriesLabel =
+	series && episode ? `${series} ${CIRCLED[episode - 1] ?? episode}` : null;
 ---
 
 <Base
@@ -34,6 +40,7 @@ const back = lang === 'ko' ? '← 목록으로' : '← Back to notes';
 				{catLabel} &nbsp;·&nbsp; {formatDate(note.data.date)} &nbsp;·&nbsp; {note.data.read}
 			</div>
 			<h1>{note.data.title}</h1>
+			{seriesLabel && <p class="series">{seriesLabel}</p>}
 			<p class="dek">{note.data.excerpt}</p>
 		</header>
 		<div class="prose">

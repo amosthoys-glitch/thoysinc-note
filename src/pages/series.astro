@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import SeriesView from '../components/SeriesView.astro';
+import { SITE } from '../data/site';
+
+const lang = 'ko' as const;
+const s = SITE[lang];
+const SERIES = '은퇴까지 10년, 매주 한 걸음';
+---
+
+<Base
+	lang={lang}
+	path="series"
+	section="series"
+	title={`${SERIES} — ${s.brand}`}
+	description="애리조나 한인신문에 매주 연재 중인 은퇴 준비 칼럼. 생활비와 소셜시큐리티의 차액에서 출발해 한 주에 한 걸음씩 나아갑니다."
+>
+	<div class="section-head"><h2>{SERIES}</h2></div>
+	<p class="lede">
+		애리조나 한인신문에 매주 연재하는 칼럼입니다. 첫 회에서 잡은 <b>부족액</b>(생활비 −
+		소셜시큐리티)을 회차마다 하나씩 메워 갑니다. 신문에 실린 뒤 이곳에 올립니다.
+	</p>
+	<SeriesView lang={lang} series={SERIES} />
+
+	<style>
+		.lede {
+			max-width: 58ch;
+			margin: 20px 0 8px;
+			color: var(--ink-soft);
+		}
+	</style>
+</Base>

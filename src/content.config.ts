@@ -18,6 +18,9 @@ const notes = defineCollection({
 		draft: z.boolean().default(false),
 		// 소셜 공유 카드에 쓸 사진 키. src/data/photos.ts 참고.
 		photo: z.enum(['sedona-night', 'sedona-road', 'sedona-chapel', 'sedona-buttes']).optional(),
+		// 연재물. 신문 칼럼을 옮겨 온 글에 붙습니다.
+		series: z.string().optional(),
+		episode: z.number().int().min(1).optional(),
 	}),
 });
 
