@@ -48,12 +48,22 @@ function send(baseType: 'PageViewData' | 'EventData', baseData: Record<string, u
 	const body = JSON.stringify(envelope);
 	const url = conn.endpoint + 'v2/track';
 
-	// sendBeacon 은 페이지를 떠나는 중에도 전송이 보장됩니다.
-	if (navigator.sendBeacon) {
-		navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }));
-	} else {
-		fetch(url, { method: 'POST', body, keepalive: true, mode: 'no-cors' }).catch(() => {});
-	}
+	// fetch + keepalive 를 씁니다. 페이지를 떠나는 중에도 전송이 유지됩니다.
+	//
+	// sendBeacon 에 application/json Blob 을 넘기면 안 됩니다. CORS 안전 목록에
+	// 없는 Content-Type 이라 사전 요청(preflight)이 필요한데 sendBeacon 은 그걸
+	// 하지 않아서, 브라우저가 아무 오류 없이 조용히 버립니다. 실제로 그렇게 만들었다가
+	// 데이터가 한 건도 안 들어와서 찾아냈습니다.
+	fetch(url, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body,
+		keepalive: true,
+	}).catch(() => {
+		// 아주 오래된 브라우저 대비. text/plain 은 안전 목록에 있어 사전 요청이 없고,
+		// 수집 엔드포인트는 본문만 보므로 그대로 받아들입니다.
+		navigator.sendBeacon?.(url, new Blob([body], { type: 'text/plain;charset=UTF-8' }));
+	});
 }
 
 /* 페이지뷰 */
