@@ -1,0 +1,42 @@
+# 운영 배포 — Azure Static Web Apps (www.thoysinc.com/note)
+#
+# npm run build 가 dist/ 를 만든 뒤 scripts/package-swa.mjs 로 deploy/ 를
+# 재배치합니다. Astro 의 base:'/note' 는 링크만 바꾸고 폴더를 중첩하지 않아서
+# 이 단계가 필요합니다. 그래서 업로드 대상은 dist 가 아니라 deploy 입니다.
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: azure-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: 배포 전 점검 — 원본과 본문이 같은지 대조
+        run: node legacy/verify.mjs deploy
+
+      - uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          app_location: deploy
+          skip_app_build: true
+          skip_api_build: true
