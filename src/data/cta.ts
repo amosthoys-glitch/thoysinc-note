@@ -11,7 +11,8 @@ import type { Lang } from './site';
  */
 export const BOOKING_URL = '';
 
-export const EMAIL = 'amosthoys@gmail.com';
+// 상담 문의는 회사 메일로 받습니다. 개인 지메일과 분리해 둡니다.
+export const EMAIL = 'amosjung@thoysinc.com';
 
 type CtaCopy = {
 	kicker: string;
