@@ -1,0 +1,18 @@
+{
+  "routes": [
+    { "route": "/", "redirect": "/note", "statusCode": 302 }
+  ],
+  "navigationFallback": {
+    "rewrite": "/note/index.html",
+    "exclude": ["/robots.txt", "/note/*", "/*.{png,jpg,jpeg,gif,svg,ico,webp,xml,txt}"]
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  },
+  "mimeTypes": {
+    ".json": "application/json",
+    ".webmanifest": "application/manifest+json"
+  }
+}

@@ -1,0 +1,32 @@
+---
+import { SITE, type Lang } from '../data/site';
+import LangToggle from './LangToggle.astro';
+
+interface Props {
+	lang: Lang;
+	altHref: string;
+}
+const { lang, altHref } = Astro.props;
+const s = SITE[lang];
+---
+
+<header class="masthead">
+	<canvas id="guilloche" aria-hidden="true"></canvas>
+	<div class="inner">
+		<div class="mh-top">
+			<div class="mh-mark">
+				<span class="seal-dot">T</span>
+				<span class="name">{s.brand}</span>
+			</div>
+			<LangToggle lang={lang} altHref={altHref} />
+		</div>
+		<div class="mh-body">
+			<div class="eyebrow">{s.eyebrow}</div>
+			<h1>{s.title}</h1>
+			<p class="lede">{s.lede}</p>
+			<div class="credential">
+				{s.cred.map((c) => <span set:html={c} />)}
+			</div>
+		</div>
+	</div>
+</header>

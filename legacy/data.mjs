@@ -1,0 +1,582 @@
+const GLOSSARY = {
+  ko: {
+    "텀 라이프":       { alt: "Term Life", def: "10·20·30년처럼 정해진 기간만 보장하는 생명보험. 적립 기능이 없어 보험료가 낮음." },
+    "홀 라이프":       { alt: "Whole Life", def: "평생 보장되며 해지환급금이 정해진 이율로 쌓이는 종신형 생명보험." },
+    "유니버설 라이프": { alt: "Universal Life", def: "보험료와 사망보험금을 형편에 따라 조정할 수 있는 종신형 생명보험." },
+    "인덱스 유니버설 라이프": { alt: "Indexed Universal Life", def: "적립금이 지수에 연동되되 하락 시 원금이 깎이지 않는 유니버설 라이프. 보험 계약이며 주식·펀드 같은 증권 상품이 아닙니다." },
+    "소멸":            { alt: "Lapse", def: "보험료 미납이나 적립금 부족으로 계약이 끝나 보장이 사라지는 것. 유니버설 라이프에서 특히 주의할 부분." },
+    "해지환급금":      { alt: "Cash Value", def: "종신형 상품에 시간이 지나며 적립되는 금액. 인출하거나 담보로 대출받을 수 있음." },
+    "사망보험금":      { alt: "Death Benefit", def: "피보험자 사망 시 수익자에게 지급되는 금액. 대체로 소득세가 붙지 않음." },
+    "수익자":          { alt: "Beneficiary", def: "보험금을 받도록 보험증서에 지정된 사람. 유언장보다 증서의 지정이 우선함." },
+    "언더라이팅":      { alt: "Underwriting", def: "보험사가 건강·직업·가족력을 심사해 보험료와 승인 여부를 정하는 절차." },
+    "보험료":          { alt: "Premium", def: "보장을 유지하기 위해 내는 금액. 납입이 끊기면 보장도 끊깁니다." },
+    "특약":            { alt: "Rider", def: "기본 계약에 붙이는 추가 보장. 장기간병, 중대질병, 보험료 납입면제 등." },
+    "연금":            { alt: "Annuity", def: "보험사와 맺는 계약으로, 목돈을 맡기고 정해진 시점부터 정기적으로 돈을 받는 상품." },
+    "즉시연금":        { alt: "Immediate Annuity", def: "목돈을 넣고 보통 1년 안에 바로 수령을 시작하는 형태. 은퇴 직후 소득 공백을 메울 때 씁니다." },
+    "거치연금":        { alt: "Deferred Annuity", def: "지금 넣어두고 몇 년 뒤부터 받는 형태. 그 기간 동안 세금이 유예된 채 적립됩니다." },
+    "고정연금":        { alt: "Fixed Annuity", def: "보험사가 정한 확정 이율로 적립되는 연금. 원금 손실 위험이 없는 대신 수익도 제한적." },
+    "인덱스연금":      { alt: "Fixed Indexed Annuity", def: "S&P 500 같은 지수 실적에 연동되되 하락 시 원금이 깎이지 않는 형태. 상승분에는 캡과 참여율이 걸립니다." },
+    "다년확정이율연금": { alt: "MYGA", def: "정해진 기간(보통 3~10년) 동안 확정 이율이 보장되는 고정연금. CD와 자주 비교됩니다." },
+    "자유인출한도":    { alt: "Free Withdrawal", def: "해지수수료 없이 매년 뺄 수 있는 금액. 보통 적립금의 10% 안팎." },
+    "시장가치조정":    { alt: "Market Value Adjustment", def: "약정 기간 안에 해지할 때 금리 변동을 반영해 환급금이 오르내리는 조항. 해지수수료와 별개로 적용됩니다." },
+    "연금화":          { alt: "Annuitization", def: "적립된 금액을 평생 또는 정해진 기간 동안 받는 소득으로 전환하는 절차. 대체로 되돌릴 수 없습니다." },
+    "해지수수료":      { alt: "Surrender Charge", def: "약정 기간(보통 5~10년) 안에 해지하거나 한도 이상 인출할 때 떼는 수수료. 해마다 줄어듭니다." },
+    "참여율":          { alt: "Participation Rate", def: "지수 상승분 중 실제로 적립에 반영되는 비율. 80%라면 지수가 10% 올라도 8%만 반영." },
+    "캡":              { alt: "Cap Rate", def: "한 기간에 인정되는 적립 이율의 상한. 캡이 9%면 지수가 20% 올라도 9%까지만 적립." },
+    "최저보증이율":    { alt: "Guaranteed Minimum Rate", def: "시장이 어떻든 계약상 보장되는 최소 이율. 인덱스연금의 바닥을 정하는 숫자." },
+    "소득특약":        { alt: "Income Rider", def: "연금화하지 않고도 평생 인출 금액을 보장받는 특약. 별도 수수료가 매년 부과됩니다." },
+    "1035 교환":       { alt: "1035 Exchange", def: "기존 보험·연금 계약을 세금 없이 새 계약으로 옮기는 제도. 해지수수료는 별개로 발생할 수 있습니다." },
+    /* 은퇴 플랜 */
+    "401(k)":          { alt: "401(k)", def: "회사가 개설하는 은퇴 플랜. 직원이 급여에서 납입하고, 회사가 매칭을 넣을 수 있습니다." },
+    "IRA":             { alt: "IRA", def: "개인이 직접 여는 은퇴 계좌. 조건을 충족하면 납입액을 소득에서 공제받고, 인출할 때 과세됩니다." },
+    "Roth IRA":        { alt: "Roth IRA", def: "세후 소득으로 납입하는 대신 조건을 충족하면 인출이 비과세인 계좌. 소득이 높으면 직접 납입이 제한됩니다." },
+    "SEP IRA":         { alt: "SEP IRA", def: "자영업자와 소규모 사업주를 위한 은퇴 플랜. 사업주가 납입하며 설정이 단순합니다." },
+    "SIMPLE IRA":      { alt: "SIMPLE IRA", def: "직원 100명 이하 사업장을 위한 플랜. 401(k)보다 관리 부담이 가볍고 회사 납입이 의무입니다." },
+    "매칭":            { alt: "Employer Match", def: "직원 납입액에 회사가 얹어주는 금액. 받을 수 있는데 안 받으면 급여를 두고 오는 셈입니다." },
+    "베스팅":          { alt: "Vesting", def: "회사가 넣어준 돈이 온전히 직원 것이 되기까지 필요한 근속 기간." },
+    "의무 인출":       { alt: "RMD", def: "일정 나이가 지나면 세전 계좌에서 해마다 최소 금액을 반드시 인출해야 하는 규정. 어기면 가산세가 붙습니다." },
+    "이월":            { alt: "Rollover", def: "퇴직·이직 시 기존 은퇴 계좌를 다른 계좌로 옮기는 절차. 직접 수령하면 원천징수와 기한 문제가 생깁니다." },
+    "적격 플랜":       { alt: "Qualified Plan", def: "세제 혜택을 받는 대신 연방 규정을 따라야 하는 은퇴 플랜. 401(k)가 대표적입니다." },
+    /* 사업주 절세 */
+    "카페테리아 플랜": { alt: "Section 125 Plan", def: "직원이 부담하는 보험료를 세전 급여에서 공제하도록 하는 제도. 직원의 과세 소득과 회사의 급여세가 함께 줄어듭니다." },
+    "162 보너스":      { alt: "Executive Bonus Plan", def: "회사가 임직원의 개인 생명보험료를 보너스로 지급하는 방식. 회사는 비용 처리, 증서는 본인 소유." },
+    "키맨 보험":       { alt: "Key Person Insurance", def: "핵심 인력의 유고로 회사가 입을 손실에 대비해 회사가 가입하고 회사가 수령하는 생명보험." },
+    "바이셀 계약":     { alt: "Buy-Sell Agreement", def: "동업자 중 한 명이 사망하거나 이탈할 때 지분을 누가 어떤 가격에 인수할지 미리 정한 약정. 생명보험으로 자금을 마련하는 경우가 많습니다." }
+  },
+  en: {
+    "term life":               { alt: "텀 라이프", def: "Life insurance for a set period — 10, 20, 30 years. No accumulation, so premiums stay low." },
+    "whole life":              { alt: "홀 라이프", def: "Permanent life insurance that lasts your lifetime and builds cash value at a contractual rate." },
+    "universal life":          { alt: "유니버설 라이프", def: "Permanent coverage with premiums and death benefit you can adjust as circumstances change." },
+    "indexed universal life":  { alt: "인덱스 유니버설 라이프", def: "Universal life whose value is credited from an index, with no loss in a down year. It is an insurance contract, not a security." },
+    "lapse":                   { alt: "소멸", def: "Coverage ending because premiums stopped or the policy value could no longer carry its costs." },
+    "cash value":              { alt: "해지환급금", def: "The balance that accumulates inside a permanent policy. You can withdraw it or borrow against it." },
+    "death benefit":           { alt: "사망보험금", def: "What the beneficiary receives when the insured dies — generally free of income tax." },
+    "beneficiary":             { alt: "수익자", def: "The person named on the policy to receive the proceeds. The policy overrides your will." },
+    "underwriting":            { alt: "언더라이팅", def: "The insurer's review of health, occupation, and family history to set the rate — or decline." },
+    "premium":                 { alt: "보험료", def: "What you pay to keep coverage in force. Stop paying and the coverage stops." },
+    "rider":                   { alt: "특약", def: "An add-on to the base contract — long-term care, critical illness, waiver of premium." },
+    "annuity":                 { alt: "연금", def: "A contract with an insurer: you hand over principal, and it pays you back on a schedule." },
+    "immediate annuity":       { alt: "즉시연금", def: "Payments start within about a year of the deposit. Used to bridge income right after retirement." },
+    "deferred annuity":        { alt: "거치연금", def: "You fund it now and collect years later, with growth tax-deferred in the meantime." },
+    "fixed annuity":           { alt: "고정연금", def: "Grows at a rate the insurer declares. No market loss, and a correspondingly modest ceiling." },
+    "indexed annuity":         { alt: "인덱스연금", def: "Credits interest tied to an index like the S&P 500 with no loss in a down year — the upside is limited by a cap rate and participation rate." },
+    "multi-year guaranteed annuity": { alt: "다년확정이율연금", def: "A fixed annuity with a rate guaranteed for a set term, usually three to ten years. Often compared to a CD." },
+    "free withdrawal":         { alt: "자유인출한도", def: "The amount you may take each year without a surrender charge — commonly around 10% of the balance." },
+    "market value adjustment": { alt: "시장가치조정", def: "A clause that raises or lowers your surrender value based on rate movement. It applies on top of any surrender charge." },
+    "annuitization":           { alt: "연금화", def: "Converting the accumulated balance into an income stream for life or a set term. Usually irreversible." },
+    "surrender charge":        { alt: "해지수수료", def: "A fee for cancelling or over-withdrawing during the surrender period, typically 5–10 years and declining annually." },
+    "participation rate":      { alt: "참여율", def: "How much of the index gain gets credited. At 80%, a 10% index year credits 8%." },
+    "cap rate":                { alt: "캡", def: "The ceiling on credited interest for a period. With a 9% cap, a 20% index year still credits 9%." },
+    "guaranteed minimum rate": { alt: "최저보증이율", def: "The contractual floor the insurer must credit regardless of the market." },
+    "income rider":            { alt: "소득특약", def: "Guarantees lifetime withdrawals without annuitizing. Carries its own annual fee." },
+    "1035 exchange":           { alt: "1035 교환", def: "Moving an existing policy or annuity into a new one without triggering tax. Surrender charges still apply separately." },
+    "section 125 plan":        { alt: "카페테리아 플랜", def: "Lets employees pay their share of premiums from pre-tax salary, lowering their taxable income and the company's payroll tax." },
+    "401(k)":                { alt: "401(k)", def: "An employer-sponsored retirement plan funded by salary deferrals, with an optional employer match." },
+    "ira":                     { alt: "IRA", def: "A retirement account you open yourself. Contributions may be deductible; withdrawals are taxed." },
+    "roth ira":                { alt: "Roth IRA", def: "Funded with after-tax dollars; qualified withdrawals come out tax-free. Direct contributions phase out at higher incomes." },
+    "sep ira":                 { alt: "SEP IRA", def: "A retirement plan for self-employed people and small employers, funded by the employer and simple to set up." },
+    "simple ira":              { alt: "SIMPLE IRA", def: "Built for employers under 100 staff — lighter administration than a 401(k), with a required employer contribution." },
+    "employer match":          { alt: "매칭", def: "What the company adds on top of an employee's own contribution. Leaving it unclaimed is leaving pay behind." },
+    "vesting":                 { alt: "베스팅", def: "The service time required before employer contributions fully belong to the employee." },
+    "rmd":                     { alt: "의무 인출", def: "The minimum amount that must come out of pre-tax accounts each year past a certain age. Missing it triggers a penalty." },
+    "rollover":                { alt: "이월", def: "Moving a retirement account after leaving a job. Taking personal receipt of the funds creates withholding and deadline problems." },
+    "qualified plan":          { alt: "적격 플랜", def: "A retirement plan that earns tax advantages in exchange for following federal rules — a 401(k) being the common example." },
+    "executive bonus plan":    { alt: "162 보너스", def: "The company pays an employee's personal life premium as a bonus. Deductible to the business; the policy belongs to the individual." },
+    "key person insurance":    { alt: "키맨 보험", def: "Coverage the company owns on someone essential to it, with the company as beneficiary." },
+    "buy-sell agreement":      { alt: "바이셀 계약", def: "A contract setting who buys an owner's share, and at what price, if they die or leave. Frequently funded with life insurance." }
+  }
+};
+
+const SITE = {
+  ko: {
+    brand: "Thoys 보험 노트",
+    eyebrow: "은퇴 준비를 처음 시작하는 분들에게",
+    title: "은퇴 얘기, 어디서부터 물어봐야 할지 모르겠다면",
+    lede: "아무것도 몰라도 괜찮습니다. 상품 이름이 아니라 순서부터 알려드립니다. 현직 에이전트가 상담에서 가장 많이 받는 질문들을, 쓰는 단어 그대로 풀어 씁니다.",
+    cred: ["JUNG, JONGMIN", "라이선스 <b>17621996</b>", "영업 주 <b>애리조나</b>"],
+    sectionPosts: "기록",
+    sectionGloss: "용어 사전",
+    glossLede: "본문에 나오는 용어는 모두 여기에 정리돼 있습니다. 한국어와 영어를 나란히 두었습니다.",
+    cats: ["전체", "생명보험", "연금", "은퇴 플랜", "비즈니스"],
+    navPosts: "글", navGloss: "용어 사전",
+    tipKicker: "용어",
+    footLic: "JUNG, JONGMIN · 라이선스 번호 17621996 · 영업 가능 주: 애리조나(AZ) · 생명보험 · 고정/인덱스 연금 · 401(k) · IRA · Roth IRA · 사업주 절세 플랜",
+    footDisc: "이 사이트의 글은 일반적인 정보 제공을 목적으로 하며, 특정 상품의 청약 권유나 개인별 보험·세무·법률 조언이 아닙니다. 실제 보장 내용과 지급 여부는 발행된 보험증서와 플랜 문서의 약관에 따릅니다. 취급 상품은 개인 생명보험과 고정·인덱스 연금이며, 단체보험과 변액연금·뮤추얼펀드 등 증권 상품은 취급하지 않고 투자 자문도 제공하지 않습니다. 은퇴 플랜과 절세 구조는 설계와 관리를 지원하는 것이며, 세무 판단은 반드시 담당 회계사·세무사와 확인하시기 바랍니다.",
+    footTech: "Astro · Azure Static Web Apps · 한국어 / English"
+  },
+  en: {
+    brand: "Thoys Insurance Notes",
+    eyebrow: "For anyone just starting to think about retirement",
+    title: "If you don't even know what to ask yet",
+    lede: "Knowing nothing about this is fine. We start with the order of operations, not the product names — the questions people actually bring to a first meeting, answered in plain words.",
+    cred: ["JUNG, JONGMIN", "License <b>17621996</b>", "Licensed in <b>Arizona</b>"],
+    sectionPosts: "Notes",
+    sectionGloss: "Glossary",
+    glossLede: "Every term used in the articles, collected here with its Korean and English counterpart side by side.",
+    cats: ["All", "Life", "Annuity", "Retirement", "Business"],
+    navPosts: "Notes", navGloss: "Glossary",
+    tipKicker: "Term",
+    footLic: "JUNG, JONGMIN · License 17621996 · Licensed in Arizona · Life insurance · Fixed and indexed annuities · 401(k) · IRA · Roth IRA · Business tax planning",
+    footDisc: "The articles on this site are general information only. They are not an offer to sell, a solicitation, or individualized insurance, tax, or legal advice. Actual coverage and payment are governed by the terms of the issued policy and plan documents. I am licensed for individual life insurance and fixed annuities, including fixed indexed products. I do not offer group insurance, variable annuities, mutual funds, or any other security, and I do not provide investment advice. On retirement plans and tax-advantaged structures I help with design and administration; confirm every tax question with your own CPA or tax attorney.",
+    footTech: "Astro · Azure Static Web Apps · 한국어 / English"
+  }
+};
+
+/* ===== 표지 도식 — 글의 내용을 그대로 그린 그림입니다.
+   ko/en 배열이 같은 순서라 글 번호로 짝지어 씁니다. 글자를 넣지 않아 두 언어에 그대로 쓰입니다. ===== */
+const ART = [
+  /* 0 — 은퇴 준비 순서: 네 칸을 하나씩 밟아 올라가는 계단 */
+  `<svg viewBox="0 0 640 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+     <rect width="640" height="220" fill="var(--accent-mut)"/>
+     <line x1="56" y1="186" x2="596" y2="186" stroke="var(--ink-faint)" stroke-width="1" opacity=".38"/>
+     <g fill="var(--accent)">
+       <rect x="86" y="150" width="104" height="36"/>
+       <rect x="206" y="112" width="104" height="74"/>
+       <rect x="326" y="74" width="104" height="112"/>
+     </g>
+     <rect x="446" y="36" width="104" height="150" fill="var(--seal)"/>
+     <circle cx="498" cy="20" r="9" fill="var(--seal)"/>
+   </svg>`,
+
+  /* 1 — 텀 vs 홀: 끝나는 기간과 끝나지 않는 기간 */
+  `<svg viewBox="0 0 640 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+     <rect width="640" height="220" fill="var(--accent-mut)"/>
+     <g stroke="var(--ink-faint)" stroke-width="1" opacity=".38">
+       <line x1="56" y1="176" x2="596" y2="176"/>
+       <line x1="56" y1="176" x2="56" y2="166"/><line x1="164" y1="176" x2="164" y2="166"/>
+       <line x1="272" y1="176" x2="272" y2="166"/><line x1="380" y1="176" x2="380" y2="166"/>
+       <line x1="488" y1="176" x2="488" y2="166"/><line x1="596" y1="176" x2="596" y2="166"/>
+     </g>
+     <rect x="56" y="66" width="324" height="12" fill="var(--accent)"/>
+     <line x1="380" y1="46" x2="380" y2="98" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 5"/>
+     <rect x="56" y="116" width="524" height="12" fill="var(--seal)"/>
+     <circle cx="596" cy="122" r="8" fill="var(--seal)"/>
+   </svg>`,
+
+  /* 1 — 수익자: 서류의 여러 줄 중 결과를 가르는 한 줄 */
+  `<svg viewBox="0 0 640 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+     <rect width="640" height="220" fill="var(--accent-mut)"/>
+     <rect x="96" y="26" width="448" height="168" fill="var(--surface)" stroke="var(--rule)"/>
+     <g stroke="var(--ink-faint)" stroke-width="6" opacity=".3" stroke-linecap="round">
+       <line x1="128" y1="58" x2="404" y2="58"/>
+       <line x1="128" y1="88" x2="356" y2="88"/>
+       <line x1="128" y1="148" x2="380" y2="148"/>
+       <line x1="128" y1="176" x2="316" y2="176"/>
+     </g>
+     <rect x="112" y="106" width="416" height="26" fill="var(--seal)" opacity=".2"/>
+     <line x1="128" y1="119" x2="452" y2="119" stroke="var(--seal)" stroke-width="6" stroke-linecap="round"/>
+     <rect x="96" y="106" width="4" height="26" fill="var(--seal)"/>
+   </svg>`,
+
+  /* 2 — 연금: 언젠가 바닥나는 돈과 끝나지 않는 지급 */
+  `<svg viewBox="0 0 640 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+     <rect width="640" height="220" fill="var(--accent-mut)"/>
+     <line x1="56" y1="176" x2="596" y2="176" stroke="var(--ink-faint)" stroke-width="1" opacity=".38"/>
+     <line x1="216" y1="30" x2="216" y2="176" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="4 5" opacity=".55"/>
+     <path d="M56 62 L216 62 Q330 66 404 120 T470 176" fill="none" stroke="var(--accent)" stroke-width="3"/>
+     <circle cx="470" cy="176" r="5.5" fill="var(--accent)"/>
+     <line x1="216" y1="140" x2="576" y2="140" stroke="var(--seal)" stroke-width="4"/>
+     <path d="M576 140 l-13 -7 v14 z" fill="var(--seal)"/>
+     <g fill="var(--seal)" opacity=".55">
+       <rect x="248" y="150" width="7" height="18"/><rect x="296" y="150" width="7" height="18"/>
+       <rect x="344" y="150" width="7" height="18"/><rect x="392" y="150" width="7" height="18"/>
+       <rect x="440" y="150" width="7" height="18"/><rect x="488" y="150" width="7" height="18"/>
+       <rect x="536" y="150" width="7" height="18"/>
+     </g>
+   </svg>`,
+
+  /* 3 — 확정이율과 인덱스: 캡이라는 천장과 0%라는 바닥 */
+  `<svg viewBox="0 0 640 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+     <rect width="640" height="220" fill="var(--accent-mut)"/>
+     <line x1="56" y1="176" x2="596" y2="176" stroke="var(--ink-faint)" stroke-width="1" opacity=".38"/>
+     <line x1="56" y1="62" x2="596" y2="62" stroke="var(--seal)" stroke-width="2" stroke-dasharray="7 6"/>
+     <g fill="var(--accent)">
+       <rect x="92" y="62" width="46" height="114"/>
+       <rect x="170" y="118" width="46" height="58"/>
+       <rect x="248" y="170" width="46" height="6"/>
+       <rect x="326" y="62" width="46" height="114"/>
+       <rect x="404" y="140" width="46" height="36"/>
+       <rect x="482" y="170" width="46" height="6"/>
+     </g>
+     <line x1="56" y1="132" x2="596" y2="132" stroke="var(--ink)" stroke-width="2" opacity=".45"/>
+   </svg>`,
+
+  /* 4 — 401(k)·IRA·Roth: 세금을 지금 내느냐 나중에 내느냐 */
+  `<svg viewBox="0 0 640 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+     <rect width="640" height="220" fill="var(--accent-mut)"/>
+     <circle cx="110" cy="110" r="13" fill="var(--accent)"/>
+     <path d="M123 110 Q300 110 340 62 T560 62" fill="none" stroke="var(--accent)" stroke-width="3"/>
+     <path d="M123 110 Q300 110 340 158 T560 158" fill="none" stroke="var(--accent)" stroke-width="3"/>
+     <rect x="196" y="46" width="26" height="26" fill="var(--seal)"/>
+     <rect x="534" y="142" width="26" height="26" fill="var(--seal)"/>
+     <g fill="none" stroke="var(--ink)" stroke-width="1.5" opacity=".4">
+       <rect x="560" y="46" width="34" height="26"/>
+       <rect x="196" y="142" width="34" height="26"/>
+     </g>
+   </svg>`,
+
+  /* 5 — 사업주 절세: 회사를 가운데 두고 네 방향으로 묶는 구조 */
+  `<svg viewBox="0 0 640 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+     <rect width="640" height="220" fill="var(--accent-mut)"/>
+     <g stroke="var(--ink-faint)" stroke-width="1.5" opacity=".5">
+       <line x1="266" y1="86" x2="180" y2="52"/><line x1="374" y1="86" x2="460" y2="52"/>
+       <line x1="266" y1="134" x2="180" y2="168"/><line x1="374" y1="134" x2="460" y2="168"/>
+     </g>
+     <rect x="266" y="86" width="108" height="48" fill="var(--accent)"/>
+     <g fill="none" stroke="var(--seal)" stroke-width="3">
+       <rect x="106" y="34" width="76" height="36"/>
+       <rect x="458" y="34" width="76" height="36"/>
+       <rect x="106" y="150" width="76" height="36"/>
+       <rect x="458" y="150" width="76" height="36"/>
+     </g>
+   </svg>`
+];
+
+const POSTS = {
+  ko: [
+    {
+      cat: "은퇴 플랜", date: "2026.08.10", read: "5분",
+      title: "은퇴 준비, 뭐부터 해야 하나요?",
+      excerpt: "검색을 시작하면 상품 이름부터 쏟아집니다. 그런데 그건 마지막 단계예요. 앞의 네 단계를 먼저 보시죠.",
+      body: `
+        <p>은퇴 준비를 시작해야겠다고 마음먹고 검색을 하면, 처음 보는 단어들이 쏟아집니다. 401(k), Roth, 연금, IUL… 그러다 보면 "나는 너무 늦었나" 하는 생각부터 듭니다.</p>
+        <p>그런데 그 단어들은 전부 <b>마지막 단계</b>에 나오는 것들입니다. 상담을 하다 보면 순서만 바로잡아도 대부분 마음이 훨씬 편해지십니다. 순서는 이렇습니다.</p>
+        <h2>1단계 — 지금 매달 얼마 쓰시나요</h2>
+        <p>거창한 계산이 아닙니다. 지난 세 달 카드 명세서와 통장을 열어서, 한 달에 대략 얼마가 나가는지만 보시면 됩니다. 이 숫자가 없으면 나머지 계산이 전부 공중에 뜹니다.</p>
+        <h2>2단계 — 일을 그만두면 그중 얼마가 필요할까요</h2>
+        <p>보통은 지금보다 조금 줄어듭니다. 출퇴근 비용이 없어지고, 주택 대출이 끝나 있는 경우도 많으니까요. 반대로 늘어나는 것도 있습니다. 의료비, 그리고 시간이 많아지면서 생기는 지출입니다. 정확할 필요는 없고, "대략 지금의 70~80% 정도" 수준이면 충분합니다.</p>
+        <h2>3단계 — 이미 들어올 돈이 얼마인지 확인하세요</h2>
+        <p>여기서 안심하시는 분이 많습니다. 대부분 생각보다 이미 가지고 계십니다.</p>
+        <ul>
+          <li><b>소셜 시큐리티</b> — ssa.gov에서 계정을 만들면 예상 수령액이 나옵니다. 무료이고 10분이면 됩니다</li>
+          <li><b>회사 은퇴 플랜</b> — 지금 다니는 회사, 그리고 예전에 다닌 회사에 남아 있는 계좌</li>
+          <li><b>배우자의 몫</b> — 같이 보셔야 합니다</li>
+        </ul>
+        <h2>4단계 — 부족한 만큼만 계산하세요</h2>
+        <p>2단계 금액에서 3단계 금액을 빼면 됩니다. 그 차액이 매달 스스로 만들어야 하는 돈입니다. 이 숫자 하나가 나오면, 그때부터 상품 이야기를 해도 됩니다.</p>
+        <div class="callout"><span class="tag">여기서 자주 막힙니다</span>차액이 크게 나왔다고 해서 잘못된 게 아닙니다. 대부분 그렇습니다. 중요한 건 지금 그 숫자를 알게 됐다는 것이고, 남은 기간 동안 조금씩 메우면 됩니다. 늦게 시작해서 못 하는 경우보다, 숫자를 모른 채 아무것도 안 해서 못 하는 경우가 훨씬 많습니다.</div>
+        <h2>그다음이 상품입니다</h2>
+        <p>부족분을 무엇으로 채울지가 마지막 단계입니다. 회사 플랜을 더 쓸지, 개인 계좌를 열지, 매달 정해진 금액이 평생 들어오는 연금을 쓸지는 그 차액의 크기와 남은 기간에 따라 달라집니다. 다음 글에서 하나씩 보겠습니다.</p>`
+    },
+    {
+      cat: "생명보험", date: "2026.08.03", read: "7분",
+      title: "텀 라이프 vs 홀 라이프, 어떤 게 맞을까",
+      excerpt: "'싼 거'와 '평생 가는 거'의 문제가 아닙니다. 무엇을 대비하려는 건지에 따라 답이 갈립니다.",
+      body: `
+        <p>상담에서 가장 많이 받는 질문입니다. 그런데 이 질문에는 앞단이 하나 빠져 있습니다. <em>보험금이 필요한 기간이 언제까지인가</em>를 정하면 답은 대체로 자동으로 나옵니다.</p>
+        <h2>텀 라이프 — 기간을 사는 것</h2>
+        <p>텀 라이프는 정해진 기간만 보장합니다. 건강한 40세가 50만 달러 20년 텀을 들면 월 30~50달러 선입니다. 같은 금액을 홀 라이프로 들면 그 열 배에 가깝습니다. 차이가 이렇게 큰 이유는 텀에 해지환급금이 없기 때문입니다. 기간이 끝나면 아무것도 남지 않습니다.</p>
+        <ul>
+          <li>주택담보대출이 끝나는 시점까지</li>
+          <li>막내가 대학을 마칠 때까지</li>
+          <li>배우자가 소득을 회복할 때까지</li>
+        </ul>
+        <p>이렇게 <b>끝나는 날짜가 있는 위험</b>이라면 텀이 정답에 가깝습니다.</p>
+        <h2>홀 라이프 — 평생과 적립을 사는 것</h2>
+        <p>홀 라이프는 보험료를 계속 내는 한 평생 보장되고 적립금이 쌓입니다. 비싼 대신 두 상황에서 분명한 쓸모가 있습니다. 나이가 들어도 반드시 남겨야 할 돈이 있는 경우 — 장례비용, 상속세 재원, 평생 돌봐야 하는 자녀 — 그리고 건강 문제로 나중에 언더라이팅을 다시 통과하기 어려운 경우입니다.</p>
+        <div class="tablewrap"><table class="ledger-t">
+          <thead><tr><th></th><th>텀 라이프</th><th>홀 라이프</th></tr></thead>
+          <tbody>
+            <tr><td>보장 기간</td><td>10 · 20 · 30년</td><td>평생</td></tr>
+            <tr><td>보험료</td><td>낮음, 기간 내 고정</td><td>높음, 평생 고정</td></tr>
+            <tr><td>적립</td><td>없음</td><td>해지환급금 적립</td></tr>
+            <tr><td>적합한 경우</td><td>기한이 있는 책임</td><td>기한이 없는 책임</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout"><span class="tag">실무 메모</span>현실적인 조합도 많습니다. 종신형으로 최소한의 평생 보장을 깔고, 아이가 독립할 때까지의 큰 금액은 텀으로 얹는 방식입니다. 둘 중 하나만 골라야 하는 문제로 볼 필요는 없습니다.</div>
+        <h2>중간 지대 — 유니버설 라이프</h2>
+        <p>보험료와 사망보험금을 형편에 맞게 조정할 수 있는 유니버설 라이프도 있습니다. 유연한 대신 적립금이 비용을 감당하지 못하면 계약이 소멸할 수 있어, 매년 명세서를 확인하는 습관이 필요합니다.</p>`
+    },
+    {
+      cat: "생명보험", date: "2026.07.27", read: "5분",
+      title: "수익자 한 줄이 유언장을 이깁니다",
+      excerpt: "가입보다 더 자주 문제가 생기는 곳은 수익자 칸입니다. 오늘 보험증서를 열어 확인해야 할 것들.",
+      body: `
+        <p>보험금은 유언장이 아니라 보험증서에 적힌 수익자에게 갑니다. 유언장에 뭐라고 썼든, 이혼 판결문에 뭐라고 적혔든, 보험사는 증서의 그 줄을 따릅니다. 결혼·이혼·출산 뒤에 갱신하지 않은 지정이 그대로 남아 있는 경우를 정말 자주 봅니다.</p>
+        <h2>1순위와 2순위를 모두 채우세요</h2>
+        <p>1순위가 먼저 사망했거나 동시에 사고를 당했는데 2순위가 비어 있으면, 보험금은 상속 재산으로 넘어갑니다. 그러면 법원 절차를 거치며 몇 달이 걸리고 채권자의 청구 대상이 되기도 합니다. 사망보험금이 빠르게 지급된다는 이점이 사라지는 셈입니다.</p>
+        <h2>미성년 자녀를 직접 지정하지 마세요</h2>
+        <p>미성년자는 보험금을 직접 받을 수 없습니다. 법원이 후견인을 지정할 때까지 돈이 묶이고, 성년이 되는 날 전액이 한 번에 지급됩니다. 신탁을 수익자로 두거나 관리자를 지정하는 방식이 일반적인 해법입니다.</p>
+        <div class="callout"><span class="tag">5분 점검</span>보험사 온라인 계정에 로그인해 수익자 화면을 열고, 이름 철자·생년월일·비율(합이 100%인지)을 확인하세요. 회사를 통해 가입한 단체보험은 지정이 따로 있으니 함께 보시는 게 좋습니다.</div>
+        <h2>이럴 때는 반드시 다시 보세요</h2>
+        <ul>
+          <li>결혼, 이혼, 재혼</li>
+          <li>출산 또는 입양</li>
+          <li>수익자의 사망</li>
+          <li>이직 — 단체보험은 회사를 옮기면 따라오지 않습니다</li>
+        </ul>`
+    },
+    {
+      cat: "연금", date: "2026.07.19", read: "6분",
+      title: "연금이라는 게 정확히 뭔가요?",
+      excerpt: "은퇴하면 월급이 끊깁니다. 그 자리를 대신할 '매달 들어오는 돈'을 만드는 계약입니다.",
+      body: `
+        <p>은퇴 준비에서 가장 무서운 건 돈이 부족한 게 아닙니다. <b>매달 들어오던 돈이 끊기는 것</b>입니다. 30년 동안 월급날이 있었는데 어느 달부터 없어지는 겁니다. 모아둔 돈이 있어도 "이걸 얼마씩 꺼내 써야 하지?"라는 질문이 매달 따라옵니다.</p>
+        <p>연금은 그 질문을 없애는 계약입니다. 보험회사에 목돈을 맡기고, 대신 <b>매달 정해진 금액을 받기로</b> 약속합니다. 쉽게 말해 월급을 하나 만들어 두는 것입니다.</p>
+        <h2>소셜 시큐리티와 뭐가 다른가요</h2>
+        <p>성격은 비슷합니다. 매달 들어오고, 평생 나옵니다. 다만 소셜 시큐리티는 금액이 정해져 있어 늘릴 수 없고, 대부분 그것만으로는 생활비가 부족합니다. 연금은 그 부족한 만큼을 내가 직접 만드는 쪽입니다.</p>
+        <h2>지금 받기 시작할까요, 나중에 받을까요</h2>
+        <p>여기서 두 가지로 갈립니다. 어렵지 않습니다.</p>
+        <ul>
+          <li><b>바로 받는 것</b> — 목돈을 넣고 대체로 다음 달부터 받기 시작합니다. 이미 은퇴하셨거나 곧 하실 분들에게 맞습니다</li>
+          <li><b>나중에 받는 것</b> — 지금 넣어두고 정해둔 나이부터 받습니다. 아직 일하고 계시고 은퇴까지 시간이 남았다면 이쪽입니다</li>
+        </ul>
+        <h2>대신 알고 시작하셔야 할 것</h2>
+        <p>연금에 넣은 돈은 한동안 묶입니다. 보통 5년에서 10년 사이인데, 그 기간에 돈을 빼면 수수료를 뗍니다. 급하게 쓸 돈까지 넣으면 안 되는 이유입니다.</p>
+        <div class="callout"><span class="tag">꼭 지켜야 할 한 가지</span>생활비 6개월치는 반드시 연금 밖에, 언제든 꺼낼 수 있는 곳에 두고 시작하세요. 이건 예외가 없습니다. 병원비나 갑작스러운 실직처럼 예상 못 한 일이 생겼을 때 수수료를 물어가며 연금을 깨는 것만은 피하셔야 합니다.</div>
+        <h2>그럼 얼마나 넣어야 하나요</h2>
+        <p>정해진 답은 없습니다. 다만 출발점은 있습니다. 앞 글에서 계산한 <b>부족한 금액</b>, 즉 은퇴 후 필요한 돈에서 소셜 시큐리티와 회사 플랜을 빼고 남은 그 차액입니다. 그 금액이 매달 나오게 하려면 얼마가 필요한지는 나이와 시작 시점에 따라 달라지니, 숫자를 가지고 오시면 같이 맞춰보는 게 가장 빠릅니다.</p>`
+    },
+    {
+      cat: "연금", date: "2026.07.11", read: "6분",
+      title: "확정이율과 인덱스, 고정연금의 두 갈래",
+      excerpt: "둘 다 원금이 줄지 않는 계약입니다. 갈리는 건 이자를 어떻게 얹느냐 — 캡과 참여율이 실제로 얼마나 깎는지 봅니다.",
+      body: `
+        <p>고정연금은 지수가 떨어져도 적립금이 줄지 않습니다. 손실 위험을 보험사가 떠안는 구조이기 때문입니다. 그 안에서 다시 두 갈래로 나뉘는데, 기준은 <b>이자를 무엇에 연동해 얹느냐</b> 하나입니다.</p>
+        <h2>다년확정이율연금 — 숫자가 미리 정해집니다</h2>
+        <p>보험사가 기간과 이율을 확정해 선언하고 그대로 적립됩니다. 5년 3.5% 같은 식이라 만기 금액을 처음부터 계산할 수 있습니다. CD와 자주 비교되는데, 세금이 유예된다는 점과 중도 해지 시 해지수수료가 붙는다는 점이 다릅니다.</p>
+        <h2>인덱스연금 — 지수에 연동해 얹습니다</h2>
+        <p>지수가 오른 해에는 정해진 방식으로 이자가 얹히고, 떨어진 해에는 0%로 처리되어 원금이 깎이지 않습니다. 문제는 오른 해에 얼마나 얹히느냐입니다. 여기에 캡과 참여율이 걸립니다. 캡이 9%, 참여율이 80%라면 지수가 20% 오른 해에도 적립되는 건 9%입니다. 그리고 지수 배당은 대체로 반영되지 않습니다.</p>
+        <div class="tablewrap"><table class="ledger-t">
+          <thead><tr><th>지수 변동</th><th>확정 4%</th><th>인덱스 · 캡 9%</th></tr></thead>
+          <tbody>
+            <tr><td>+20%</td><td>+4%</td><td>+9%</td></tr>
+            <tr><td>+6%</td><td>+4%</td><td>+6%</td></tr>
+            <tr><td>−15%</td><td>+4%</td><td>0%</td></tr>
+          </tbody>
+        </table></div>
+        <p>표의 성격이 분명합니다. 인덱스연금은 아주 좋은 해를 양보하는 대가로 나쁜 해를 막는 구조이고, 확정이율은 어느 해든 같은 숫자를 줍니다. 위 수치는 설명을 위한 예시값이며 특정 상품의 조건이 아닙니다.</p>
+        <h2>계약서에서 꼭 볼 두 줄</h2>
+        <ul>
+          <li><b>캡과 참여율의 변경 가능 여부</b> — 첫 해 조건이 계속 유지되는지, 해마다 보험사가 다시 정하는지</li>
+          <li><b>최저보증이율</b> — 조건이 나빠져도 계약이 보장하는 바닥</li>
+        </ul>
+        <div class="callout"><span class="tag">읽는 법</span>소득특약을 붙이면 연금화하지 않고도 평생 인출액을 보장받습니다. 다만 매년 별도 수수료가 붙고, 특약 계산에 쓰이는 '보증 계좌'는 실제로 찾을 수 있는 돈이 아닙니다. 이 둘을 같은 금액처럼 보여주는 자료를 조심하세요.</div>`
+    },
+    {
+      cat: "은퇴 플랜", date: "2026.06.20", read: "7분",
+      title: "401(k), IRA, Roth — 이름만 어려운 세 개의 통장",
+      excerpt: "전부 '은퇴용 통장'입니다. 다른 건 딱 하나, 세금을 언제 내느냐입니다.",
+      body: `
+        <p>401(k), IRA, Roth IRA. 이름이 어려워서 그렇지 셋 다 <b>은퇴할 때 쓰려고 돈을 넣어두는 통장</b>입니다. 일반 통장과 다른 점은 하나뿐입니다. 나라에서 세금 혜택을 주는 대신, 은퇴 전에 꺼내 쓰면 벌금을 물립니다.</p>
+        <p>그러면 왜 이름이 세 개나 될까요. <b>세금을 언제 내느냐</b>가 다르기 때문입니다. 이것만 잡으면 나머지는 자잘한 조건 차이입니다.</p>
+        <h2>지금 깎아주는 통장</h2>
+        <p>401(k)와 일반 IRA가 여기 해당합니다. 올해 넣은 돈만큼 올해 세금을 덜 냅니다. 대신 나중에 꺼내 쓸 때 그 돈에 세금을 냅니다. 세금을 없애주는 게 아니라 <b>미뤄주는</b> 것입니다.</p>
+        <h2>나중에 안 받는 통장</h2>
+        <p>Roth IRA입니다. 지금은 세금을 다 낸 돈으로 넣습니다. 대신 나중에 꺼낼 때 세금이 없습니다. 불어난 부분까지 전부요. 소득이 아주 높으면 이 통장은 못 여는 경우가 있습니다.</p>
+        <p>어느 쪽이 유리한지는 간단히 보면 이렇습니다. <b>지금 세금을 많이 내고 계시면</b> 지금 깎아주는 쪽이, <b>지금 소득이 적고 앞으로 늘어날 것 같으면</b> 나중에 안 받는 쪽이 대체로 낫습니다.</p>
+        <div class="tablewrap"><table class="ledger-t">
+          <thead><tr><th>계좌</th><th>누가 여나</th><th>납입할 때</th><th>찾을 때</th></tr></thead>
+          <tbody>
+            <tr><td>401(k)</td><td>회사</td><td>세전 (Roth 옵션 있음)</td><td>과세 · 의무 인출</td></tr>
+            <tr><td>IRA</td><td>개인</td><td>조건부 공제</td><td>과세 · 의무 인출</td></tr>
+            <tr><td>Roth IRA</td><td>개인</td><td>공제 없음</td><td>조건 충족 시 비과세</td></tr>
+            <tr><td>SEP IRA</td><td>사업주</td><td>회사가 납입</td><td>과세</td></tr>
+            <tr><td>SIMPLE IRA</td><td>사업주</td><td>회사 납입 의무</td><td>과세</td></tr>
+          </tbody>
+        </table></div>
+        <h2>회사에 다니신다면 — 이것부터 확인하세요</h2>
+        <p>회사가 401(k)에 <b>매칭</b>을 넣어주는 곳이 많습니다. 내가 100달러를 넣으면 회사가 50달러를 얹어주는 식입니다. 이건 사실상 안 받으면 손해인 돈입니다. 인사 담당자에게 "우리 회사 매칭 얼마인가요?" 한 마디만 물어보시면 됩니다.</p>
+        <p>한 가지만 더. 회사가 얹어준 돈은 몇 년 근무해야 온전히 내 것이 되는 조건이 붙는 경우가 있습니다. 이직을 생각 중이시면 이것도 같이 확인하세요.</p>
+        <h2>사업을 하신다면</h2>
+        <p>혼자 하시거나 배우자와 둘이라면 SEP IRA가 가장 간단합니다. 직원이 있으면 SIMPLE IRA가 손이 덜 가고, 규모가 더 커지면 401(k)를 만듭니다.</p>
+        <div class="callout"><span class="tag">놓치기 쉬운 것</span>회사를 옮길 때 예전 회사 계좌를 그냥 두고 오는 분이 정말 많습니다. 돈이 사라지지는 않지만 관리가 안 됩니다. 옮길 때는 <b>돈을 내 통장으로 받지 말고</b> 계좌에서 계좌로 바로 보내야 합니다. 한 번 내 손에 들어오면 세금이 먼저 떼이고 기한 문제가 생깁니다.</div>
+        <h2>얼마까지 넣을 수 있나요</h2>
+        <p>한도가 정해져 있는데 해마다 조금씩 바뀝니다. 그래서 숫자는 여기 적지 않겠습니다 — 글이 금방 틀려지기 때문입니다. 그해 기준은 IRS 홈페이지나 회사 인사팀에서 확인하시는 게 정확합니다.</p>
+        <h2>통장과 그 안에 담는 것은 다른 이야기입니다</h2>
+        <p>지금까지 이야기한 건 <b>통장의 종류</b>입니다. 그 안에 무엇을 담아 불릴지는 별개의 선택이고, 여기서 갈리는 부분이 많습니다. 저는 그중에서 원금이 줄지 않는 보험 상품(고정연금·인덱스연금)으로 채우는 방식을 다루며, 주식이나 펀드 같은 증권 상품은 취급하지 않습니다.</p>`
+    },
+    {
+      cat: "비즈니스", date: "2026.06.12", read: "6분",
+      title: "사업주가 쓰는 절세 구조 네 가지",
+      excerpt: "법인 비용으로 처리하면서 개인과 회사를 동시에 지키는 통로들. 조건과 순서가 핵심입니다.",
+      body: `
+        <p>사업이 자리를 잡으면 질문이 바뀝니다. 매출을 어떻게 늘릴까에서 <em>남은 돈을 어떻게 지킬까</em>로 옮겨갑니다. 아래 네 가지는 그 지점에서 가장 자주 쓰이는 구조입니다.</p>
+        <h2>1. 카페테리아 플랜 — 가장 먼저</h2>
+        <p>직원 부담 보험료를 세전으로 돌리는 것만으로 회사의 급여세와 직원의 소득세가 함께 줄어듭니다. 비용이 거의 들지 않으면서 효과가 즉시 나타나는 항목이라 순서상 항상 먼저입니다.</p>
+        <h2>2. 162 보너스 — 핵심 인력을 묶는 방법</h2>
+        <p>회사가 임직원의 개인 생명보험료를 보너스 형태로 지급합니다. 회사는 급여와 같은 방식으로 비용 처리하고, 증서는 본인 소유라 직원 입장에서 확실한 혜택으로 인식됩니다. 특정 근속 조건을 붙이는 설계도 가능합니다.</p>
+        <h2>3. 키맨 보험 — 회사를 지키는 쪽</h2>
+        <p>대표나 핵심 영업 인력이 갑자기 빠졌을 때 회사가 받는 충격에 대비합니다. 회사가 계약자이자 수익자이며, 보험금으로 대체 인력 채용 비용과 매출 공백을 메웁니다. 은행 대출 조건으로 요구되는 경우도 있습니다.</p>
+        <h2>4. 바이셀 계약 — 동업자가 있다면 필수</h2>
+        <p>동업자 한 명이 사망했을 때 그 지분이 배우자에게 넘어가면, 남은 사람은 경영 경험이 없는 새 파트너와 회사를 운영하게 됩니다. 바이셀 계약은 그때 누가 어떤 가격에 지분을 인수할지 미리 정해두는 약정이고, 인수 자금은 생명보험으로 마련하는 경우가 많습니다.</p>
+        <div class="callout"><span class="tag">범위</span>제가 하는 일은 보험 설계와 플랜 관리입니다. 비용 처리 가능 여부, 법인 형태에 따른 차이, 실제 절세액 같은 세무 판단은 담당 회계사·세무사와 함께 확정해야 합니다. 구조를 짜는 자리에 두 사람이 같이 앉는 게 가장 빠릅니다.</div>`
+    }
+  ],
+  en: [
+    {
+      cat: "Retirement", date: "2026.08.10", read: "5 min",
+      title: "Where do I even start with retirement?",
+      excerpt: "Search once and product names bury you. Those come last. Here are the four steps that come first.",
+      body: `
+        <p>You decide it is time to get serious about retirement, you search once, and unfamiliar words pour out. 401(k), Roth, annuity, IUL. Somewhere in there the thought arrives: am I already too late?</p>
+        <p>Here is the thing. Every one of those words belongs to the <b>last</b> step. In a first meeting, simply putting the steps back in order settles most of the worry. The order goes like this.</p>
+        <h2>Step 1 — What do you spend in a month right now?</h2>
+        <p>Nothing elaborate. Open the last three months of statements and find roughly what leaves your account each month. Without this number, everything after it is guesswork.</p>
+        <h2>Step 2 — How much of that will you still need?</h2>
+        <p>Usually a little less. Commuting costs disappear, and the mortgage is often finished. Some things go up instead — medical costs, and the ordinary spending that comes with having time. Precision is not the point; somewhere around 70–80% of today is close enough to work with.</p>
+        <h2>Step 3 — Find out what is already coming</h2>
+        <p>This is the step where people relax. Most have more in place than they thought.</p>
+        <ul>
+          <li><b>Social Security</b> — create an account at ssa.gov and it shows your estimate. Free, about ten minutes</li>
+          <li><b>Employer plans</b> — the current job, and any accounts left behind at old ones</li>
+          <li><b>Your spouse's side</b> — this only works if you look at both together</li>
+        </ul>
+        <h2>Step 4 — Subtract, and size the gap</h2>
+        <p>Step 2 minus step 3. What remains is what you need to create for yourself each month. Once that single number exists, product conversations finally make sense.</p>
+        <div class="callout"><span class="tag">This is where people stall</span>A large gap does not mean you did something wrong. Most people have one. What matters is that you now know the number and have time to close some of it. Far more retirements go badly from never running the numbers than from starting late.</div>
+        <h2>Then, and only then, the products</h2>
+        <p>How you close the gap — contributing more to a workplace plan, opening an account of your own, or setting up income that arrives every month for life — depends on the size of that number and the years you have left. The next articles take them one at a time.</p>`
+    },
+    {
+      cat: "Life", date: "2026.08.03", read: "7 min",
+      title: "Term life vs. whole life: which one fits",
+      excerpt: "It isn't cheap versus permanent. It's about what you're insuring against, and for how long.",
+      body: `
+        <p>This is the most common question I get. It is also missing a step. Decide <em>how long the money needs to be there</em>, and the answer usually picks itself.</p>
+        <h2>Term life — you're buying a window</h2>
+        <p>Term life covers a fixed period. A healthy 40-year-old can often get $500,000 of 20-year term for $30–50 a month. The same face amount in whole life runs close to ten times that. The gap exists because term builds no cash value — when the term ends, nothing remains.</p>
+        <ul>
+          <li>Until the mortgage is paid off</li>
+          <li>Until the youngest finishes college</li>
+          <li>Until a spouse's income recovers</li>
+        </ul>
+        <p>When the risk has an <b>end date</b>, term is usually the right instrument.</p>
+        <h2>Whole life — you're buying permanence and accumulation</h2>
+        <p>Whole life lasts as long as you keep paying, and it accumulates. The premium is steep, but two situations justify it clearly: an obligation that never expires — final expenses, estate liquidity, a dependent who will need lifelong care — and health that would make future underwriting difficult or impossible.</p>
+        <div class="tablewrap"><table class="ledger-t">
+          <thead><tr><th></th><th>Term life</th><th>Whole life</th></tr></thead>
+          <tbody>
+            <tr><td>Duration</td><td>10 · 20 · 30 years</td><td>Lifetime</td></tr>
+            <tr><td>Premium</td><td>Low, level for the term</td><td>High, level for life</td></tr>
+            <tr><td>Accumulation</td><td>None</td><td>Builds cash value</td></tr>
+            <tr><td>Best for</td><td>Obligations that end</td><td>Obligations that don't</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout"><span class="tag">In practice</span>Blending is common and sensible: a modest permanent policy as a floor, with term layered on top for the years your children are still at home. This is rarely an either/or decision.</div>
+        <h2>The middle ground — universal life</h2>
+        <p>Universal life lets you adjust the premium and the death benefit as circumstances change. That flexibility comes with homework: if the accumulated value stops covering internal costs, the policy can lapse. Read the annual statement every year.</p>`
+    },
+    {
+      cat: "Life", date: "2026.07.27", read: "5 min",
+      title: "One line on the policy beats your will",
+      excerpt: "The beneficiary field causes more trouble than the application ever does. What to check today.",
+      body: `
+        <p>Proceeds go to the beneficiary named on the policy — not to whoever your will names. Whatever the will says, whatever the divorce decree says, the insurer follows that line on the contract. Designations left unchanged after a marriage, divorce, or birth are the single most common problem I see.</p>
+        <h2>Fill in the contingent, not just the primary</h2>
+        <p>If the primary dies first, or in the same accident, and no contingent is named, the money falls into the estate. That means probate, months of delay, and exposure to creditors — losing the one thing a death benefit is supposed to do well, which is pay quickly.</p>
+        <h2>Don't name a minor child directly</h2>
+        <p>A minor cannot receive proceeds. The money sits until a court appoints a guardian, and then it is handed over in full on their eighteenth birthday. Naming a trust, or appointing a custodian, is the standard fix.</p>
+        <div class="callout"><span class="tag">Five-minute check</span>Log into the insurer's portal, open the beneficiary screen, and verify spelling, dates of birth, and percentages — they must total 100%. Group coverage through your employer carries its own separate designation; check that one too.</div>
+        <h2>Revisit it whenever this happens</h2>
+        <ul>
+          <li>Marriage, divorce, remarriage</li>
+          <li>A birth or an adoption</li>
+          <li>The death of a named beneficiary</li>
+          <li>A job change — group coverage does not follow you</li>
+        </ul>`
+    },
+    {
+      cat: "Annuity", date: "2026.07.19", read: "6 min",
+      title: "So what exactly is an annuity?",
+      excerpt: "Retire and the paycheck stops. This is a contract that creates a replacement — money that arrives every month.",
+      body: `
+        <p>The frightening part of retirement is not usually running short. It is that <b>the money stops arriving</b>. You had a payday for thirty years, and then one month there isn't one. Even with savings in the bank, a question shows up every month: how much am I allowed to take out?</p>
+        <p>An annuity is a contract that removes that question. You give an insurance company a lump sum, and in exchange it agrees to <b>pay you a set amount every month</b>. In plain terms, you are creating a paycheck.</p>
+        <h2>How is that different from Social Security?</h2>
+        <p>In shape, it isn't. Both arrive monthly and both last for life. The difference is that Social Security pays what it pays — you cannot enlarge it, and for most people it does not cover the whole budget. An annuity is how you build the missing part yourself.</p>
+        <h2>Start collecting now, or later?</h2>
+        <p>This is the fork, and it is not complicated.</p>
+        <ul>
+          <li><b>Start now</b> — you deposit a lump sum and payments usually begin the following month. This fits someone already retired, or nearly there</li>
+          <li><b>Start later</b> — you fund it now and collect from an age you pick. This fits someone still working with years to go</li>
+        </ul>
+        <h2>What to understand before you commit</h2>
+        <p>Money placed in an annuity is tied up for a while — commonly five to ten years. Take it out early and the company keeps a fee. That is precisely why this cannot be money you might need soon.</p>
+        <div class="callout"><span class="tag">The one rule</span>Keep six months of living expenses outside the contract, somewhere you can reach in a day. No exceptions. The situation to avoid is paying a penalty to break an annuity because of a hospital bill or a sudden job loss.</div>
+        <h2>How much should go in?</h2>
+        <p>There is no set answer, but there is a starting point: the <b>gap</b> from the first article — what you will need each month, minus Social Security and any workplace plan. Translating that monthly figure into a deposit depends on your age and when you start, so bring the number and we can work it out together.</p>`
+    },
+    {
+      cat: "Annuity", date: "2026.07.11", read: "6 min",
+      title: "Declared rate or indexed: the two kinds of fixed annuity",
+      excerpt: "Neither one loses principal to the market. What differs is how the interest gets credited — and what caps and participation rates take out of it.",
+      body: `
+        <p>A fixed annuity does not lose value when an index falls; the insurer carries that risk. Within that guarantee, contracts split into two kinds, and the dividing line is simply <b>what the credited interest is tied to</b>.</p>
+        <h2>Multi-year guaranteed annuity — the number is set in advance</h2>
+        <p>The insurer declares a term and a rate, and credits exactly that: five years at 3.5%, for instance, so you can calculate the ending balance on day one. It is often compared to a CD, with two differences — the growth is tax-deferred, and leaving early triggers a surrender charge.</p>
+        <h2>Indexed annuity — interest tied to an index</h2>
+        <p>In an up year, interest is credited by a defined formula. In a down year, the credit is 0% and principal does not fall. The real question is how much gets credited in the good years, and that is where the cap rate and participation rate come in. With a 9% cap and an 80% participation rate, a 20% index year credits 9%. Index dividends are typically excluded as well.</p>
+        <div class="tablewrap"><table class="ledger-t">
+          <thead><tr><th>Index move</th><th>Declared 4%</th><th>Indexed · 9% cap</th></tr></thead>
+          <tbody>
+            <tr><td>+20%</td><td>+4%</td><td>+9%</td></tr>
+            <tr><td>+6%</td><td>+4%</td><td>+6%</td></tr>
+            <tr><td>−15%</td><td>+4%</td><td>0%</td></tr>
+          </tbody>
+        </table></div>
+        <p>The shape is clear enough: an indexed contract gives up the great years to protect the bad ones, while a declared rate pays the same number either way. The figures above are illustrative, not the terms of any particular contract.</p>
+        <h2>Two lines to find in the contract</h2>
+        <ul>
+          <li><b>Whether the cap and participation rate can change</b> — locked for the term, or reset by the insurer each year</li>
+          <li><b>The guaranteed minimum rate</b> — the floor the contract owes you if those terms get worse</li>
+        </ul>
+        <div class="callout"><span class="tag">How to read it</span>An income rider guarantees lifetime withdrawals without annuitizing, for an extra annual fee. Watch one detail: the "benefit base" used to calculate those withdrawals is not money you can walk away with. Any illustration that blurs the two is worth a second look.</div>`
+    },
+    {
+      cat: "Retirement", date: "2026.06.20", read: "7 min",
+      title: "401(k), IRA, Roth — three accounts with hard names",
+      excerpt: "All three are just savings accounts for retirement. One thing separates them: when you pay the tax.",
+      body: `
+        <p>401(k), IRA, Roth IRA. The names are the hardest part. All three are <b>accounts you put money in for retirement</b>. What makes them different from an ordinary savings account is a trade: the government gives you a tax break, and in return charges a penalty if you pull the money out early.</p>
+        <p>So why three names? Because of <b>when you pay the tax</b>. Get that straight and the rest is small print.</p>
+        <h2>The break-now accounts</h2>
+        <p>A 401(k) and a traditional IRA. Whatever you put in this year, you pay less tax on this year. Later, when you take it out, you pay tax on it then. The tax isn't erased — it is <b>postponed</b>.</p>
+        <h2>The nothing-later account</h2>
+        <p>That's the Roth IRA. You fund it with money you have already paid tax on, and when you take it out there is no tax at all — including on everything it grew into. If your income is high enough, this one may be closed to you.</p>
+        <p>Which is better comes down to a rough read. <b>Paying a lot of tax right now?</b> The break-now side usually wins. <b>Earning less now than you expect to later?</b> The nothing-later side usually does.</p>
+        <div class="tablewrap"><table class="ledger-t">
+          <thead><tr><th>Account</th><th>Who opens it</th><th>Going in</th><th>Coming out</th></tr></thead>
+          <tbody>
+            <tr><td>401(k)</td><td>Employer</td><td>Pre-tax (Roth option)</td><td>Taxed · RMDs</td></tr>
+            <tr><td>IRA</td><td>Individual</td><td>Deductible if eligible</td><td>Taxed · RMDs</td></tr>
+            <tr><td>Roth IRA</td><td>Individual</td><td>No deduction</td><td>Tax-free if qualified</td></tr>
+            <tr><td>SEP IRA</td><td>Business owner</td><td>Employer-funded</td><td>Taxed</td></tr>
+            <tr><td>SIMPLE IRA</td><td>Business owner</td><td>Employer contribution required</td><td>Taxed</td></tr>
+          </tbody>
+        </table></div>
+        <h2>If you work for a company — check this first</h2>
+        <p>Many employers add a <b>match</b> to your 401(k): you put in $100, the company adds $50. Not claiming it is simply giving up pay. One question to HR — "what's our match?" — settles it.</p>
+        <p>One more thing. Money the company adds often requires a few years on the job before it is fully yours. If you are considering a move, check that alongside the offer.</p>
+        <h2>If you run a business</h2>
+        <p>On your own, or with a spouse, a SEP IRA is the simplest thing that works. With employees, a SIMPLE IRA takes less handling, and a 401(k) comes in as you grow.</p>
+        <div class="callout"><span class="tag">Easy to miss</span>People leave old accounts behind at former employers all the time. The money doesn't vanish, but nobody is watching it. When you move it, send it <b>account to account</b> — never to your own checking first. The moment it lands there, tax is withheld and a deadline starts running.</div>
+        <h2>How much can I put in?</h2>
+        <p>There are limits, and they shift a little every year. That's why the numbers aren't printed here — the article would go stale. Take that year's figures from the IRS site or your HR department.</p>
+        <h2>The account and what goes in it are different questions</h2>
+        <p>Everything above is about the <b>type of account</b>. What you put inside it to grow is a separate decision, and it is where paths diverge. I work with the option that does not lose principal — fixed and fixed indexed annuities — and do not handle stocks, funds, or other securities.</p>`
+    },
+    {
+      cat: "Business", date: "2026.06.12", read: "6 min",
+      title: "Four structures business owners actually use",
+      excerpt: "Deductible to the company while protecting the owner and the business. The conditions and the order both matter.",
+      body: `
+        <p>Once a business is established the question changes, from how to grow revenue to <em>how to keep what's left</em>. These four structures come up most often at that point.</p>
+        <h2>1. Section 125 plan — do this first</h2>
+        <p>Simply moving employee premium contributions to pre-tax cuts the company's payroll tax and the employee's income tax at the same time. It costs almost nothing to put in place and takes effect immediately, which is why it always comes first.</p>
+        <h2>2. Executive bonus — holding onto key people</h2>
+        <p>The company pays an employee's personal life premium as a bonus. The business deducts it like any other compensation, and because the policy belongs to the individual, it reads as a real benefit. Service conditions can be built into the design.</p>
+        <h2>3. Key person insurance — protecting the company side</h2>
+        <p>This covers what happens to the business if an owner or a critical producer is suddenly gone. The company owns the policy and receives the proceeds, which fund the cost of replacing them and cover the revenue gap. Lenders sometimes require it.</p>
+        <h2>4. Buy-sell agreement — essential with partners</h2>
+        <p>If a partner dies and their share passes to a spouse, the survivors end up running the company with a new partner who has never run one. A buy-sell agreement fixes in advance who buys that share and at what price, and life insurance is the usual way to have the money ready.</p>
+        <div class="callout"><span class="tag">Scope</span>My work here is the insurance design and plan administration. Deductibility, how your entity type changes the answer, and the actual tax savings are determinations for your CPA or tax attorney. The fastest version of this is both of us at the same table.</div>`
+    }
+  ]
+};
+
+/* ===== state ===== */
+let lang = "ko", cat = 0, view = { name: "list", index: 0 };
+
+
+export { GLOSSARY, SITE, ART, POSTS };

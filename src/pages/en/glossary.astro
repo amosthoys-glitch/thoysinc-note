@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import GlossaryView from '../../components/GlossaryView.astro';
+import { SITE } from '../../data/site';
+
+const lang = 'en' as const;
+const s = SITE[lang];
+---
+
+<Base
+	lang={lang}
+	path="glossary"
+	section="gloss"
+	title={`${s.sectionGloss} — ${s.brand}`}
+	description={s.glossLede}
+>
+	<GlossaryView lang={lang} />
+</Base>

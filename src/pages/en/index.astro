@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+import NoteList from '../../components/NoteList.astro';
+import { SITE } from '../../data/site';
+
+const lang = 'en' as const;
+const s = SITE[lang];
+---
+
+<Base lang={lang} section="posts" title={`${s.brand} — ${s.eyebrow}`} description={s.lede}>
+	<NoteList lang={lang} />
+</Base>

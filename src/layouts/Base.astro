@@ -1,0 +1,94 @@
+---
+import '../styles/note.css';
+import { getImage } from 'astro:assets';
+import Masthead from '../components/Masthead.astro';
+import StickyBar from '../components/StickyBar.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import TermTip from '../components/TermTip.astro';
+import { SITE, type Lang } from '../data/site';
+import { DEFAULT_PHOTO, PHOTOS, type PhotoKey } from '../data/photos';
+import { href, other } from '../lib/urls';
+
+interface Props {
+	lang: Lang;
+	/** 현재 페이지의 자기 경로. 반대 언어 URL 과 hreflang 을 만드는 데 씁니다. */
+	path?: string;
+	section: 'posts' | 'gloss';
+	title: string;
+	description: string;
+	ogType?: 'website' | 'article';
+	/** 소셜 공유 카드에 쓸 사진. 생략하면 기본 사진이 나갑니다. */
+	photo?: PhotoKey;
+}
+
+const { lang, path = '', section, title, description, ogType = 'website', photo } = Astro.props;
+const s = SITE[lang];
+
+const altLang = other(lang);
+const altHref = href(altLang, path);
+const selfHref = href(lang, path);
+
+const canonical = new URL(selfHref, Astro.site);
+const altUrl = new URL(altHref, Astro.site);
+
+// 공유 카드용으로 1200x630 을 미리 만들어 둡니다. 원본은 2MB 안팎이라 그대로 쓰면 안 됩니다.
+const card = await getImage({
+	src: PHOTOS[photo ?? DEFAULT_PHOTO],
+	width: 1200,
+	height: 630,
+	fit: 'cover',
+	format: 'jpeg',
+});
+const cardUrl = new URL(card.src, Astro.site);
+
+const favicon =
+	"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23101a30'/><text y='.9em' x='.5em' font-size='58' text-anchor='middle' fill='%239d6f28' font-family='monospace'>T</text></svg>";
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="author" content="JUNG, JONGMIN" />
+		<link rel="canonical" href={canonical} />
+		<link rel="alternate" hreflang={lang} href={canonical} />
+		<link rel="alternate" hreflang={altLang} href={altUrl} />
+		<link rel="alternate" hreflang="x-default" href={new URL(href('ko', path), Astro.site)} />
+		<link rel="icon" href={favicon} />
+		<link rel="sitemap" href={new URL('/sitemap-index.xml', Astro.site)} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:site_name" content={s.brand} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:locale" content={lang === 'ko' ? 'ko_KR' : 'en_US'} />
+		<meta property="og:locale:alternate" content={lang === 'ko' ? 'en_US' : 'ko_KR'} />
+		<meta property="og:image" content={cardUrl} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta
+			property="og:image:alt"
+			content={lang === 'ko' ? '애리조나 세도나의 붉은 바위' : 'Red rock country in Sedona, Arizona'}
+		/>
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={cardUrl} />
+	</head>
+	<body>
+		<StickyBar lang={lang} altHref={altHref} section={section} />
+		<Masthead lang={lang} altHref={altHref} />
+		<main>
+			<slot />
+		</main>
+		<SiteFooter lang={lang} />
+		<TermTip />
+		<script>
+			import '../scripts/guilloche';
+			import '../scripts/sticky';
+		</script>
+	</body>
+</html>

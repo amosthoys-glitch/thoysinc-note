@@ -1,0 +1,14 @@
+---
+// 글마다 하나씩 있는 표지 도식. 글자가 없어 두 언어가 같은 그림을 씁니다.
+// art 가 없는 새 글에서는 빈 상자가 남지 않도록 아무것도 그리지 않습니다.
+import { ART } from '../data/art';
+
+interface Props {
+	index?: number;
+	variant: 'thumb' | 'cover';
+}
+const { index, variant } = Astro.props;
+const svg = index === undefined ? '' : (ART[index] ?? '');
+---
+
+{svg && <div class={variant} set:html={svg} />}

@@ -1,0 +1,54 @@
+---
+import Art from './Art.astro';
+import { CATS, SITE, type Lang } from '../data/site';
+import { formatDate, getNotes, slugOf } from '../lib/notes';
+import { href } from '../lib/urls';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+const s = SITE[lang];
+const notes = await getNotes(lang);
+
+/** 언어 중립 키를 그 언어의 표시 이름으로 바꿉니다. */
+const label = (cat: string) => s.cats[CATS.indexOf(cat as (typeof CATS)[number])];
+---
+
+<div class="section-head">
+	<h2>{s.sectionPosts}</h2>
+	<div class="filters">
+		{
+			CATS.map((cat, i) => (
+				<button type="button" data-cat={cat} aria-pressed={i === 0 ? 'true' : 'false'}>
+					{s.cats[i]}
+				</button>
+			))
+		}
+	</div>
+</div>
+
+<ul class="ledger">
+	{
+		notes.map((note) => (
+			<li data-cat={note.data.cat}>
+				<a class="entry" href={href(lang, slugOf(note))}>
+					<div class="erail">
+						<span class="cat">{label(note.data.cat)}</span>
+						<span>{formatDate(note.data.date)}</span>
+						<span>{note.data.read}</span>
+					</div>
+					<div>
+						<h3 class="etitle">{note.data.title}</h3>
+						<p class="eexcerpt">{note.data.excerpt}</p>
+					</div>
+					<Art index={note.data.art} variant="thumb" />
+				</a>
+			</li>
+		))
+	}
+</ul>
+
+<script>
+	import '../scripts/cats';
+</script>

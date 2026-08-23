@@ -1,0 +1,35 @@
+---
+import { GLOSSARY } from '../data/glossary';
+import { SITE, type Lang } from '../data/site';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+const s = SITE[lang];
+const entries = Object.entries(GLOSSARY[lang]);
+---
+
+<div class="section-head">
+	<h2>{s.sectionGloss}</h2>
+	<span class="eyebrow">{entries.length} {lang === 'ko' ? '개' : 'terms'}</span>
+</div>
+<p class="eexcerpt gloss-lede">{s.glossLede}</p>
+<div class="glossgrid">
+	{
+		entries.map(([term, v]) => (
+			<div class="gentry">
+				<div class="k">{term}</div>
+				<div class="a">{v.alt}</div>
+				<div class="d">{v.def}</div>
+			</div>
+		))
+	}
+</div>
+
+<style>
+	.gloss-lede {
+		margin: 20px 0 26px;
+		max-width: 56ch;
+	}
+</style>

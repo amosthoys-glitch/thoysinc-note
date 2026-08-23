@@ -1,0 +1,12 @@
+---
+// 본문 중간의 강조 블록. 원본 index.html 의 div.callout 을 그대로 옮겼습니다.
+interface Props {
+	tag?: string;
+}
+const { tag } = Astro.props;
+---
+
+<div class="callout">
+	{tag && <span class="tag">{tag}</span>}
+	<slot />
+</div>

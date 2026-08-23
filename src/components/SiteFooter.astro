@@ -1,0 +1,17 @@
+---
+import { SITE, type Lang } from '../data/site';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+const s = SITE[lang];
+---
+
+<footer class="site">
+	<div class="foot">
+		<p class="lic">{s.footLic}</p>
+		<p class="disc">{s.footDisc}</p>
+		<p class="tech">{s.footTech}</p>
+	</div>
+</footer>
