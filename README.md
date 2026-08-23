@@ -134,3 +134,69 @@ Azure SWA 빌드 설정:
 - 상품 이름이 아니라 순서부터 설명한다
 - 상담에서 실제로 받은 질문의 표현을 그대로 쓴다
 - 모든 글은 일반 정보 제공이며 개인별 조언이 아니다 (푸터 면책 문구 참조)
+
+## 방문 통계 보기
+
+Azure Portal → 리소스 그룹 `thoysinc-web` → **`appi-thoysinc-note`** → 왼쪽 메뉴 **Logs** → 아래 쿼리를 붙여넣고 실행.
+
+> 워크스페이스 기반이라 `Logs` 에서 `AppPageViews` / `AppEvents` 테이블을 씁니다.
+> 예전 이름(`pageViews`, `customEvents`)으로는 조회되지 않습니다.
+
+**어떤 글이 읽히나 (최근 30일)**
+
+```kusto
+AppPageViews
+| where TimeGenerated > ago(30d)
+| extend path = tostring(parse_url(Url).Path)
+| summarize 조회수 = count() by path
+| order by 조회수 desc
+```
+
+**상담 버튼을 누른 사람 — 가장 중요한 숫자**
+
+```kusto
+AppEvents
+| where Name == "consult_cta_click"
+| extend page = tostring(Properties.page), kind = tostring(Properties.kind)
+| summarize 클릭 = count() by page, kind
+| order by 클릭 desc
+```
+
+**글별 전환율 — 읽은 사람 중 몇 %가 상담 버튼을 눌렀나**
+
+```kusto
+let views = AppPageViews
+  | where TimeGenerated > ago(30d)
+  | extend path = tostring(parse_url(Url).Path)
+  | summarize 조회 = count() by path;
+let clicks = AppEvents
+  | where TimeGenerated > ago(30d) and Name == "consult_cta_click"
+  | extend path = tostring(Properties.page)
+  | summarize 클릭 = count() by path;
+views
+| join kind=leftouter clicks on path
+| extend 전환율 = round(100.0 * coalesce(클릭, 0) / 조회, 1)
+| project path, 조회, 클릭 = coalesce(클릭, 0), 전환율
+| order by 조회 desc
+```
+
+**어디서 들어오나**
+
+```kusto
+AppPageViews
+| where TimeGenerated > ago(30d)
+| extend 유입 = tostring(Properties.referrer)
+| summarize 방문 = count() by 유입
+| order by 방문 desc
+```
+
+자주 보는 쿼리는 실행 후 **Pin to dashboard** 로 고정해 두면 매번 붙여넣지 않아도 됩니다.
+
+### 수집 방식
+
+쿠키를 쓰지 않습니다. 동의 배너가 필요 없고, 대신 재방문자를 같은 사람으로 묶지 못합니다.
+공식 SDK 는 gzip 73KB 로 사이트 나머지 전체보다 무거워서, 수집 엔드포인트로 직접 보내는
+비콘(`src/scripts/analytics.ts`, 1KB 남짓)을 씁니다.
+
+`src/data/analytics.ts` 의 연결 문자열은 **비밀이 아닙니다.** 브라우저에서 도는 수집 전용
+키이고 데이터를 읽을 권한이 없습니다.
