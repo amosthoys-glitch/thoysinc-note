@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import ConsultView from '../components/ConsultView.astro';
+import { SITE } from '../data/site';
+
+const lang = 'ko' as const;
+const s = SITE[lang];
+---
+
+<Base
+	lang={lang}
+	path="consult"
+	section="consult"
+	title={`상담 — ${s.brand}`}
+	description="상품 권유 없이 순서부터 정리하는 30분 무료 상담. 준비물도 사전 지식도 필요 없습니다."
+>
+	<ConsultView lang={lang} />
+</Base>

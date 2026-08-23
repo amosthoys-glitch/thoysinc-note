@@ -1,0 +1,169 @@
+---
+import Cta from './Cta.astro';
+import type { Lang } from '../data/site';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+
+const copy = {
+	ko: {
+		title: '상담',
+		lede: '상품 이름부터 꺼내지 않습니다. 지금 어디에 서 있는지부터 같이 확인합니다.',
+		howTitle: '30분 동안 하는 일',
+		steps: [
+			['지금 얼마 쓰시나요', '지난 세 달 정도의 대략적인 지출입니다. 정확할 필요 없습니다.'],
+			[
+				'은퇴 후엔 얼마가 필요할까요',
+				'보통 지금의 70~80% 선입니다. 늘어나는 항목도 함께 봅니다.',
+			],
+			[
+				'이미 들어올 돈이 얼마인가요',
+				'소셜 시큐리티, 회사 플랜, 배우자 몫. 여기서 안심하시는 분이 많습니다.',
+			],
+			['차액이 얼마인가요', '이 숫자 하나가 나오면 그때부터 방법을 이야기할 수 있습니다.'],
+		],
+		bringTitle: '준비하실 것',
+		bring: '없습니다. 서류도, 사전 지식도 필요 없습니다. 대략의 숫자만 알고 계시면 되고, 그것도 모르셔도 같이 찾아봅니다.',
+		notTitle: '이 상담이 아닌 것',
+		not: [
+			'특정 상품의 청약 권유가 아닙니다. 30분 뒤에 아무것도 안 하셔도 됩니다.',
+			'투자 자문이 아닙니다. 저는 증권 상품을 취급하지 않습니다.',
+			'세무 판단을 대신하지 않습니다. 세금 문제는 담당 회계사와 확인하셔야 합니다.',
+		],
+		moneyTitle: '저는 어떻게 돈을 버나요',
+		money:
+			'상담은 무료이고 계약 의무가 없습니다. 나중에 저를 통해 계약이 성사되면 보험사로부터 커미션을 받습니다. 그래서 상담 자리에서 계약을 권하지 않습니다 — 맞지 않는 걸 팔면 결국 해지되고, 그건 서로 손해입니다.',
+		langNote: '상담은 한국어와 영어 모두 가능합니다.',
+	},
+	en: {
+		title: 'Consultation',
+		lede: 'We do not start with product names. We start by figuring out where you actually stand.',
+		howTitle: 'What we do in 30 minutes',
+		steps: [
+			['What do you spend now?', 'A rough figure from the last three months. Precision is not needed.'],
+			[
+				'What will you need after you stop working?',
+				'Usually 70–80% of today. We also look at what goes up.',
+			],
+			[
+				'What is already coming in?',
+				'Social Security, employer plans, your spouse. Most people have more than they thought.',
+			],
+			['What is the gap?', 'Once that one number exists, we can talk about how to close it.'],
+		],
+		bringTitle: 'What to bring',
+		bring:
+			'Nothing. No documents, no background reading. Rough numbers are enough — and if you do not have those, we will find them together.',
+		notTitle: 'What this is not',
+		not: [
+			'Not a solicitation. You can do nothing at all when the 30 minutes are up.',
+			'Not investment advice. I do not offer securities products.',
+			'Not a tax opinion. Confirm every tax question with your own CPA.',
+		],
+		moneyTitle: 'How I get paid',
+		money:
+			'The call is free and carries no obligation. If you later place a policy through me, the carrier pays me a commission. That is exactly why I do not pitch on the call — selling someone the wrong thing ends in a lapsed policy, which is a loss for both of us.',
+		langNote: 'Available in Korean and English.',
+	},
+}[lang];
+---
+
+<div class="section-head"><h2>{copy.title}</h2></div>
+<p class="lede">{copy.lede}</p>
+
+<Cta lang={lang} compact />
+
+<h3>{copy.howTitle}</h3>
+<ol class="steps">
+	{
+		copy.steps.map(([head, detail]) => (
+			<li>
+				<strong>{head}</strong>
+				<span>{detail}</span>
+			</li>
+		))
+	}
+</ol>
+
+<h3>{copy.bringTitle}</h3>
+<p>{copy.bring}</p>
+
+<h3>{copy.notTitle}</h3>
+<ul class="plain">
+	{copy.not.map((n) => <li>{n}</li>)}
+</ul>
+
+<h3>{copy.moneyTitle}</h3>
+<p>{copy.money}</p>
+
+<p class="langnote">{copy.langNote}</p>
+
+<style>
+	.lede {
+		max-width: 56ch;
+		margin: 22px 0 30px;
+		font-size: 18px;
+		color: var(--ink-soft);
+	}
+	h3 {
+		margin: 44px 0 12px;
+		padding-top: 16px;
+		border-top: 1px solid var(--rule-soft);
+		font-family: var(--display);
+		font-weight: 700;
+		font-size: 19px;
+		letter-spacing: -0.026em;
+	}
+	p {
+		max-width: 62ch;
+		color: var(--ink-soft);
+	}
+	.steps {
+		max-width: 62ch;
+		margin: 0;
+		padding-left: 1.4em;
+	}
+	.steps li {
+		margin-bottom: 14px;
+	}
+	.steps strong {
+		display: block;
+		color: var(--ink);
+		font-family: var(--display);
+		font-size: 16.5px;
+	}
+	.steps span {
+		color: var(--ink-soft);
+		font-size: 15px;
+	}
+	.plain {
+		max-width: 62ch;
+		margin: 0;
+		padding-left: 0;
+		list-style: none;
+		color: var(--ink-soft);
+	}
+	.plain li {
+		position: relative;
+		margin-bottom: 8px;
+		padding-left: 22px;
+	}
+	.plain li::before {
+		content: '';
+		position: absolute;
+		left: 2px;
+		top: 0.82em;
+		width: 7px;
+		height: 1px;
+		background: var(--seal);
+	}
+	.langnote {
+		margin-top: 40px;
+		font-family: var(--mono);
+		font-size: 12px;
+		letter-spacing: 0.06em;
+		color: var(--ink-faint);
+	}
+</style>

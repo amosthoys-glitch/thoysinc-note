@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import ConsultView from '../../components/ConsultView.astro';
+import { SITE } from '../../data/site';
+
+const lang = 'en' as const;
+const s = SITE[lang];
+---
+
+<Base
+	lang={lang}
+	path="consult"
+	section="consult"
+	title={`Consultation — ${s.brand}`}
+	description="A free 30-minute call that starts with the order of operations, not a product pitch. Nothing to prepare."
+>
+	<ConsultView lang={lang} />
+</Base>

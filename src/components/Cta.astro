@@ -1,0 +1,112 @@
+---
+// 글 끝에 붙는 상담 유도 블록.
+import { BOOKING_URL, CTA, EMAIL } from '../data/cta';
+import type { Lang } from '../data/site';
+import { href } from '../lib/urls';
+
+interface Props {
+	lang: Lang;
+	/** 상담 페이지에서는 버튼만 크게 보여 주고 안내 문구는 생략합니다. */
+	compact?: boolean;
+}
+const { lang, compact = false } = Astro.props;
+const c = CTA[lang];
+
+const booking = BOOKING_URL.trim();
+const action = booking || `mailto:${EMAIL}`;
+const label = booking ? c.button : c.buttonFallback;
+---
+
+<aside class="cta">
+	<div class="kicker">{c.kicker}</div>
+	<h2>{c.title}</h2>
+	<p>{c.body}</p>
+	<div class="actions">
+		<a class="primary" href={action} {...booking ? { target: '_blank', rel: 'noopener' } : {}}>
+			{label}
+		</a>
+		{
+			!compact && (
+				<a class="secondary" href={href(lang, 'consult')}>
+					{lang === 'ko' ? '상담이 어떻게 진행되나요 →' : 'What the call looks like →'}
+				</a>
+			)
+		}
+	</div>
+	<p class="note">{c.note}</p>
+</aside>
+
+<style>
+	.cta {
+		margin: 3.5em 0 0;
+		padding: 28px 30px 26px;
+		border: 1px solid var(--rule);
+		border-top: 2px solid var(--seal);
+		background: var(--surface);
+	}
+	.kicker {
+		font-family: var(--mono);
+		font-size: 10.5px;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--seal);
+	}
+	.cta h2 {
+		margin: 8px 0 10px;
+		font-family: var(--display);
+		font-weight: 700;
+		font-size: 22px;
+		letter-spacing: -0.028em;
+		border: 0;
+		padding: 0;
+	}
+	.cta p {
+		margin: 0;
+		color: var(--ink-soft);
+		font-size: 15.5px;
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px 20px;
+		margin: 20px 0 0;
+	}
+	.primary {
+		display: inline-block;
+		padding: 11px 22px;
+		background: var(--accent);
+		color: var(--surface);
+		font-size: 15px;
+		font-weight: 600;
+		text-decoration: none;
+		transition: filter 0.18s;
+	}
+	.primary:hover {
+		filter: brightness(1.15);
+	}
+	.secondary {
+		color: var(--ink-soft);
+		font-size: 14.5px;
+		text-decoration: none;
+		border-bottom: 1px solid var(--rule);
+	}
+	.secondary:hover {
+		color: var(--seal);
+		border-bottom-color: var(--seal);
+	}
+	.note {
+		margin-top: 16px !important;
+		font-size: 13.5px !important;
+		color: var(--ink-faint) !important;
+	}
+	@media (max-width: 640px) {
+		.cta {
+			padding: 22px 20px;
+		}
+		.primary {
+			width: 100%;
+			text-align: center;
+		}
+	}
+</style>

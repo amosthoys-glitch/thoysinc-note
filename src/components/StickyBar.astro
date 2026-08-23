@@ -1,12 +1,13 @@
 ---
 import { SITE, type Lang } from '../data/site';
+import { CTA } from '../data/cta';
 import { href } from '../lib/urls';
 import LangToggle from './LangToggle.astro';
 
 interface Props {
 	lang: Lang;
 	altHref: string;
-	section: 'posts' | 'gloss';
+	section: 'posts' | 'gloss' | 'consult';
 }
 const { lang, altHref, section } = Astro.props;
 const s = SITE[lang];
@@ -19,6 +20,9 @@ const s = SITE[lang];
 			<a href={href(lang)} aria-current={section === 'posts' ? 'true' : 'false'}>{s.navPosts}</a>
 			<a href={href(lang, 'glossary')} aria-current={section === 'gloss' ? 'true' : 'false'}>
 				{s.navGloss}
+			</a>
+			<a href={href(lang, 'consult')} aria-current={section === 'consult' ? 'true' : 'false'}>
+				{CTA[lang].navConsult}
 			</a>
 		</nav>
 		<LangToggle lang={lang} altHref={altHref} />
