@@ -73,6 +73,7 @@ const favicon =
 			property="og:image:alt"
 			content={lang === 'ko' ? '애리조나 세도나의 붉은 바위' : 'Red rock country in Sedona, Arizona'}
 		/>
+		{import.meta.env.PUBLIC_NOINDEX === "true" && <meta name="robots" content="noindex, nofollow" />}
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
