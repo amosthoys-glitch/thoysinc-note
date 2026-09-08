@@ -61,7 +61,12 @@ function paragraphs(xml) {
 	return out;
 }
 
-/** AKWEEK8182026.docx -> 2026-08-18 (월/일에 앞 0 이 없을 수 있습니다) */
+/** 파일명에서 게재일을 읽습니다.
+ *  새 규칙(2026-09-15 게재분부터): AKWEEK + MMDDYYYY, 항상 8자리.
+ *    AKWEEK09152026.docx -> 2026-09-15
+ *  옛 규칙(그 이전 파일): 월·일에 앞 0 이 없습니다.
+ *    AKWEEK8182026.docx -> 2026-08-18
+ *  옛 파일 이름은 바꾸지 않으므로 두 형식을 모두 읽습니다. */
 function dateFromName(name) {
 	const digits = basename(name).match(/AKWEEK[^0-9]*([0-9]{5,8})/i)?.[1];
 	if (!digits) return null;
