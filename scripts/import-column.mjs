@@ -204,7 +204,7 @@ for (const file of files) {
 		"lang: 'ko'",
 		`series: ${yaml(SERIES)}`,
 		`episode: ${parsed.episode}`,
-		"photo: 'sedona-road'",
+		"photo: 'sedona-sunset'",
 		'---',
 		'',
 		'',

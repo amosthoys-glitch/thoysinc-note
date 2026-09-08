@@ -38,3 +38,12 @@ commercial use, and use as machine-learning training data require prior
 written permission. The site's code is separately licensed under MIT
 (see `LICENSE`); making this repository public does not grant rights to
 the written content.
+
+## 사진
+
+`src/assets/` 의 사진은 **직접 촬영한 것**이다 (애리조나 세도나, 2025-07-03~04).
+공개 전에 16:9 로 자르고 2400px 로 줄이고 메타데이터를 지웠다 — 원본 EXIF 에는
+촬영 위치(GPS)가 들어 있어 그대로 올리지 않는다.
+
+The photographs in `src/assets/` are original work by the author
+(Sedona, Arizona, July 2025), cropped and stripped of metadata before publishing.

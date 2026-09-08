@@ -62,10 +62,10 @@ npm run new -- iul-basics --cat life --ko "IUL, 무엇이 다른가" --en "What 
 
 | 키 | 사진 |
 |---|---|
-| `sedona-night` | 별 아래 붉은 바위 (기본값) |
-| `sedona-road` | 세도나 진입 표지판과 도로 |
-| `sedona-chapel` | 홀리 크로스 채플 |
-| `sedona-buttes` | 한낮의 붉은 바위 능선 |
+| `sedona-dusk` | 별 아래 붉은 바위 (기본값) |
+| `sedona-sunset` | 세도나 진입 표지판과 도로 |
+| `sedona-monsoon` | 홀리 크로스 채플 |
+| `sedona-redrock` | 한낮의 붉은 바위 능선 |
 
 원본은 2MB 안팎이지만 빌드할 때 1200×630 / 100~170KB 로 자동 변환됩니다.
 사진을 추가하려면 `src/assets/` 에 넣고 `src/data/photos.ts` 와

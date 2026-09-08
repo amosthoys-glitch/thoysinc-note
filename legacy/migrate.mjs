@@ -27,13 +27,13 @@ const SLUGS = [
 /* 글 번호 -> 소셜 공유 카드 사진. 애리조나에서 직접 찍은 사진들입니다.
    내용을 주장하는 그림이 아니라 배경이므로 글 성격에 맞춰 느슨하게 배정합니다. */
 const PHOTOS = [
-	'sedona-road', // 0 은퇴 준비의 시작 — 길
-	'sedona-buttes', // 1 텀 vs 홀
-	'sedona-chapel', // 2 수익자 — 남기는 것
-	'sedona-night', // 3 연금 — 평생
-	'sedona-buttes', // 4 확정이율 vs 인덱스
-	'sedona-road', // 5 401(k)/IRA/Roth
-	'sedona-chapel', // 6 사업주 구조
+	'sedona-sunset', // 0 은퇴 준비의 시작 — 길
+	'sedona-redrock', // 1 텀 vs 홀
+	'sedona-monsoon', // 2 수익자 — 남기는 것
+	'sedona-dusk', // 3 연금 — 평생
+	'sedona-redrock', // 4 확정이율 vs 인덱스
+	'sedona-sunset', // 5 401(k)/IRA/Roth
+	'sedona-monsoon', // 6 사업주 구조
 ];
 
 /* 언어별 표시 문자열 -> 언어 중립 키 */
