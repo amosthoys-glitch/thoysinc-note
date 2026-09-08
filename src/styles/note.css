@@ -194,6 +194,20 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 28px 90px; }
 }
 @media (max-width: 640px) { .thumb { display: none; } }
 
+/* ---------- 표지 사진 ---------------------------------------- */
+/* 글 맨 위에는 사진 한 장만 놓고, 도식은 제목 아래로 내렸습니다.
+   두 띠가 나란히 겹치면 글이 시작되기까지 화면이 너무 무거워집니다.
+   사진 쪽 비율(640/260)이 도식(640/220)보다 조금 높습니다. */
+.photo {
+  width: 100%; aspect-ratio: 640 / 260; overflow: hidden;
+  border: 1px solid var(--rule); margin-top: 26px;
+}
+.photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* 제목 아래로 내려온 도식은 머리글이 이미 아래 여백을 갖고 있어
+   위 여백을 지우고, 대신 본문과의 간격을 둡니다. */
+article > .cover { margin-top: 0; margin-bottom: 34px; }
+
 /* ---------- article ----------------------------------------- */
 .back { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); margin-top: 40px; }
 .back:hover { color: var(--seal); }

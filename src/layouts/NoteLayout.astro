@@ -3,6 +3,7 @@
 // Copyright (c) 2026 Thoys Inc.
 import Base from './Base.astro';
 import Art from '../components/Art.astro';
+import Photo from '../components/Photo.astro';
 import Cta from '../components/Cta.astro';
 import { CATS, SITE, type Lang } from '../data/site';
 import { formatDate, slugOf, type Note } from '../lib/notes';
@@ -36,7 +37,7 @@ const seriesLabel =
 >
 	<a class="back" href={href(lang)}>{back}</a>
 	<article>
-		<Art index={note.data.art} variant="cover" />
+		<Photo photo={note.data.photo} />
 		<header>
 			<div class="eyebrow">
 				{catLabel} &nbsp;·&nbsp; {formatDate(note.data.date)} &nbsp;·&nbsp; {note.data.read}
@@ -45,6 +46,7 @@ const seriesLabel =
 			{seriesLabel && <p class="series">{seriesLabel}</p>}
 			<p class="dek">{note.data.excerpt}</p>
 		</header>
+		<Art index={note.data.art} variant="cover" />
 		<div class="prose">
 			<slot />
 		</div>
