@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/urls';
+---
+
+<Base
+	lang="ko"
+	section="posts"
+	title="찾는 글이 없습니다 — Thoys 보험 노트"
+	description="주소가 바뀌었거나, 아직 공개되지 않은 글입니다."
+>
+	<div class="section-head"><h2>찾는 글이 없습니다</h2></div>
+	<p class="lede">
+		주소가 잘못되었거나, 아직 공개되지 않은 글입니다. 신문에 실린 연재 칼럼은 지면에 나간
+		다음 날 이곳에 올라옵니다.
+	</p>
+	<p class="links">
+		<a href={href('ko')}>글 목록</a>
+		<a href={href('ko', 'series')}>연재 목차</a>
+		<a href={href('ko', 'glossary')}>용어 사전</a>
+	</p>
+
+	<style>
+		.lede {
+			max-width: 52ch;
+			margin: 22px 0 28px;
+			color: var(--ink-soft);
+		}
+		.links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1.5em;
+		}
+		.links a {
+			color: var(--accent);
+		}
+	</style>
+</Base>

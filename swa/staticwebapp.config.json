@@ -1,13 +1,6 @@
 {
-  "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": [
-      "/robots.txt",
-      "/sitemap*.xml",
-      "/ads.txt",
-      "/_astro/*",
-      "/*.{png,jpg,jpeg,gif,svg,ico,webp,xml,txt,css,js,woff,woff2}"
-    ]
+  "responseOverrides": {
+    "404": { "rewrite": "/404.html" }
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
