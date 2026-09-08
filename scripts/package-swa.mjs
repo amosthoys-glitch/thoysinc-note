@@ -49,8 +49,17 @@ const redirects = [...paths]
 	.map((p) => ({ route: `/note/${p}/`, redirect: `/${p}/`, statusCode: 301 }));
 
 // 목록 자체는 마지막에.
+// `/note` 와 `/note/` 를 둘 다 넣으면 SWA 가 같은 규칙으로 보고
+// "duplicate route" 로 배포 전체를 거부합니다. 슬래시 있는 쪽만 넣습니다.
 redirects.push({ route: '/note/', redirect: '/', statusCode: 301 });
-redirects.push({ route: '/note', redirect: '/', statusCode: 301 });
+
+// 같은 이유로 중복이 하나라도 있으면 배포가 통째로 막히므로 미리 걸러냅니다.
+const seen = new Set();
+for (const r of redirects) {
+	const key = r.route.replace(/\/+$/, '');
+	if (seen.has(key)) throw new Error(`리다이렉트 중복: ${r.route}`);
+	seen.add(key);
+}
 
 const template = JSON.parse(await readFile(join(SWA, 'staticwebapp.config.json'), 'utf8'));
 template.routes = [...redirects, ...(template.routes ?? [])];

@@ -44,3 +44,22 @@ jobs:
           app_location: deploy
           skip_app_build: true
           output_location: ""
+
+      # 위 액션은 실패해도 잡을 초록색으로 끝냅니다. 실제로 두 번 당했습니다 —
+      # 배포 토큰이 무효였을 때(2026-08-23), staticwebapp.config.json 에 중복
+      # 규칙이 있어 거부됐을 때(2026-09-08). 둘 다 "success" 로 표시됐습니다.
+      # 그래서 라이브 사이트를 직접 찔러 확인합니다.
+      - name: 배포 확인 — 라이브가 실제로 바뀌었는지
+        run: |
+          sleep 45
+          for i in 1 2 3 4 5 6; do
+            code=$(curl -s -o /tmp/live.html -w '%{http_code}' -m 30 https://www.thoysinc.com/ || true)
+            if [ "$code" = "200" ] && grep -q 'Thoys' /tmp/live.html; then
+              echo "확인됨: HTTP $code, 첫 화면이 블로그입니다"
+              exit 0
+            fi
+            echo "시도 $i: HTTP $code — 아직 반영 안 됨"
+            sleep 20
+          done
+          echo '배포가 라이브에 반영되지 않았습니다. 위 static-web-apps-deploy 로그를 확인하세요.'
+          exit 1
