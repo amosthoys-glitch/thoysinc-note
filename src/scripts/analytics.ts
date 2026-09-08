@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 // 방문 통계 — Application Insights 수집 엔드포인트로 직접 보냅니다.
 //
 // 공식 SDK(@microsoft/applicationinsights-web)는 gzip 73KB 로, 사이트 나머지

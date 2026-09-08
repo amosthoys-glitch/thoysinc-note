@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 // 글마다 하나씩 대응하는 표지 도식. 글자가 없어 두 언어가 그대로 공유합니다.
 export const ART: string[] = [
 	"<svg viewBox=\"0 0 640 220\" preserveAspectRatio=\"xMidYMid slice\" aria-hidden=\"true\">\n     <rect width=\"640\" height=\"220\" fill=\"var(--accent-mut)\"/>\n     <line x1=\"56\" y1=\"186\" x2=\"596\" y2=\"186\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" opacity=\".38\"/>\n     <g fill=\"var(--accent)\">\n       <rect x=\"86\" y=\"150\" width=\"104\" height=\"36\"/>\n       <rect x=\"206\" y=\"112\" width=\"104\" height=\"74\"/>\n       <rect x=\"326\" y=\"74\" width=\"104\" height=\"112\"/>\n     </g>\n     <rect x=\"446\" y=\"36\" width=\"104\" height=\"150\" fill=\"var(--seal)\"/>\n     <circle cx=\"498\" cy=\"20\" r=\"9\" fill=\"var(--seal)\"/>\n   </svg>",

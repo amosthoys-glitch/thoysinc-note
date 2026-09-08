@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 #!/usr/bin/env node
 // 새 글을 한국어/영어 짝으로 만듭니다. 두 파일이 같은 slug 를 쓰면
 // 언어 전환 링크와 hreflang 이 자동으로 이어집니다.

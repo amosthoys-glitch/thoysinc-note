@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 // 언어별 사이트 문자열. 원본 index.html 의 SITE 를 그대로 이관했습니다.
 export const CATS = ["all", "life", "annuity", "retirement", "business"] as const;
 export type Cat = (typeof CATS)[number];

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 // 소셜 공유 카드(og:image)에 쓰는 사진. 전부 애리조나에서 직접 찍은 사진입니다.
 // 글 frontmatter 의 photo: '<키>' 로 고르고, 없으면 DEFAULT_PHOTO 가 쓰입니다.
 import type { ImageMetadata } from 'astro';

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 // 상담 유도 문구. site.ts 는 migrate.mjs 가 다시 쓰므로 이 파일에 따로 둡니다.
 import type { Lang } from './site';
 

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 #!/usr/bin/env node
 // AZ-WEKK 폴더의 신문 칼럼 .docx 를 블로그 글(MDX)로 옮깁니다.
 //

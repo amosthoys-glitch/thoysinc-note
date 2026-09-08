@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 // 본문 텍스트를 훑어 용어사전에 있는 단어를 표시하고, 누르면 뜻 카드를 띄웁니다.
 // 글 쓸 때 별도 표기가 필요 없다는 원본의 성질을 그대로 유지합니다.
 import { GLOSSARY } from '../data/glossary';

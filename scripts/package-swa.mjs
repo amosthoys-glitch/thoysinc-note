@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 // astro build 결과를 Azure Static Web Apps 배포 폴더 모양으로 옮깁니다.
 //
 //   deploy/

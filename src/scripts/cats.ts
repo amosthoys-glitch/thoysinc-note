@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 // 카테고리 필터. 원본은 다시 렌더링했지만 여기서는 항목을 감추기만 합니다.
 const buttons = document.querySelectorAll<HTMLButtonElement>('.filters button');
 const items = document.querySelectorAll<HTMLLIElement>('.ledger > li');

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 import type { Lang } from '../data/site';
 
 /** astro.config 의 base('/note') 를 항상 앞뒤 슬래시가 하나인 형태로 정규화합니다. */

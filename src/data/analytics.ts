@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Thoys Inc.
+
 // Azure Application Insights 연결 문자열.
 //
 // 이 값은 **비밀이 아닙니다.** 브라우저에서 실행되는 코드라 페이지 소스에
