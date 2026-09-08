@@ -1,13 +1,13 @@
 # Thoys 보험 노트
 
-`www.thoysinc.com/note` 에 서비스되는 보험·은퇴 콘텐츠 사이트. Astro 정적 사이트.
+`www.thoysinc.com` 에 서비스되는 보험·은퇴 콘텐츠 사이트. Astro 정적 사이트.
 
 > IT 기술 블로그는 별도 프로젝트입니다 → `../thoyslab-blog` (`blog.thoysinc.com`)
 
 ## 빠른 시작
 
 ```bash
-npm run dev      # http://localhost:4321/note/ — 드래프트도 보임
+npm run dev      # http://localhost:4321/ — 드래프트도 보임
 npm run build    # deploy/ 로 배포 폴더 생성 — 드래프트 제외
 npm run preview  # 빌드 결과 확인
 npm run check    # 타입/콘텐츠 스키마 검사
@@ -99,11 +99,11 @@ legacy/            마이그레이션 전 원본 (빌드 제외)
 
 | 경로 | 내용 |
 |---|---|
-| `/` | `/note/` 로 302 리다이렉트 |
-| `/note/` | 한국어 글 목록 |
-| `/note/<slug>/` | 한국어 글 |
-| `/note/glossary/` | 한국어 용어사전 |
-| `/note/en/` `/note/en/<slug>/` `/note/en/glossary/` | 영어판 |
+| `/` | 한국어 글 목록 |
+| `/<slug>/` | 한국어 글 |
+| `/glossary/` `/series/` `/consult/` | 용어사전·연재 목차·상담 |
+| `/en/` `/en/<slug>/` … | 영어판 |
+| `/note/…` | 옛 주소. 전부 301 로 새 주소에 보냅니다 |
 
 마이그레이션 전에는 `/note` 하나에 SPA 가 올라가 있었습니다. 이제 글마다 실제 URL 이
 생겨서 검색엔진이 개별 글을 색인하고, 링크를 공유하면 그 글이 열립니다.
@@ -114,7 +114,7 @@ legacy/            마이그레이션 전 원본 (빌드 제외)
 
 ```
 deploy/
-  index.html                 / -> /note/ 리다이렉트
+  index.html                 블로그 첫 화면
   robots.txt
   sitemap-index.xml
   staticwebapp.config.json

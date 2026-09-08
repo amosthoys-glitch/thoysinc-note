@@ -37,7 +37,7 @@ const fails = [];
 for (const lang of ['ko', 'en']) {
 	for (const [i, post] of POSTS[lang].entries()) {
 		const slug = SLUGS[i];
-		const file = join(DEPLOY, 'note', lang === 'en' ? 'en' : '', slug, 'index.html');
+		const file = join(DEPLOY, lang === 'en' ? 'en' : '', slug, 'index.html');
 
 		let built;
 		try {
@@ -77,7 +77,7 @@ for (const lang of ['ko', 'en']) {
 for (const lang of ['ko', 'en']) {
 	for (const [i, post] of POSTS[lang].entries()) {
 		const slug = SLUGS[i];
-		const file = join(DEPLOY, 'note', lang === 'en' ? 'en' : '', slug, 'index.html');
+		const file = join(DEPLOY, lang === 'en' ? 'en' : '', slug, 'index.html');
 		let built;
 		try {
 			built = await readFile(file, 'utf8');

@@ -1,4 +1,4 @@
-# 운영 배포 — Azure Static Web Apps (www.thoysinc.com/note)
+# 운영 배포 — Azure Static Web Apps (www.thoysinc.com)
 #
 # npm run build 가 dist/ 를 만든 뒤 scripts/package-swa.mjs 로 deploy/ 를
 # 재배치합니다. Astro 의 base:'/note' 는 링크만 바꾸고 폴더를 중첩하지 않아서
