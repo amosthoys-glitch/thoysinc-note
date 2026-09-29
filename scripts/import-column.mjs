@@ -155,9 +155,10 @@ function parseColumn(file) {
 let files;
 if (explicit) files = [explicit];
 else {
-	const all = await readdir(COLUMN_DIR);
+	// 칼럼은 연도별 하위 폴더(2024\, 2025\, …)에 나뉘어 있으므로 하위 폴더까지 읽습니다.
+	const all = await readdir(COLUMN_DIR, { recursive: true });
 	files = all
-		.filter((f) => /^AKWEEK.*\.docx$/i.test(f) && !f.startsWith('~$'))
+		.filter((f) => /^AKWEEK.*\.docx$/i.test(basename(f)) && !basename(f).startsWith('~$'))
 		.map((f) => join(COLUMN_DIR, f));
 }
 
