@@ -22,7 +22,14 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = join(ROOT, 'src', 'content', 'notes', 'ko');
 const COLUMN_DIR = 'C:\\Users\\AmosJung\\OneDrive - Thoys Inc\\AZ-WEKK';
 
-const SERIES = '은퇴까지 10년, 매주 한 걸음';
+// 신문 연재는 부제로 구분합니다. 블로그 주소(column-NN)는 연재가 바뀌어도 이어지는
+// 번호를 씁니다: 첫 연재 14화 뒤로 둘째 연재 ①화가 column-15, 셋째 연재 ①화가 column-23.
+// 연재를 새로 시작하면 여기 한 줄을 더하고 offset 은 앞 연재들의 회차 합으로 둡니다.
+const SERIES_LIST = [
+	{ name: '은퇴까지 10년, 매주 한 걸음', offset: 0 },
+	{ name: '한 해를 닫고 새해를 여는 재정 점검', offset: 14 },
+	{ name: '세상 이야기로 읽는 은퇴', offset: 22 },
+];
 const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳';
 
 const dry = process.argv.includes('--dry');
@@ -107,7 +114,8 @@ function parseColumn(file) {
 
 	// 연재 표기가 먼저입니다. 연재 시작 전의 옛 칼럼 100편 가까이가 같은 폴더에
 	// 있는데, 서식이 달라 여기서 걸러 내야 합니다. 대상이 아닌 것이지 오류가 아닙니다.
-	const subtitle = paras.find((p) => p.text.includes(SERIES));
+	let series;
+	const subtitle = paras.find((p) => (series = SERIES_LIST.find((s) => p.text.includes(s.name))));
 	const mark = subtitle?.text.match(new RegExp(`[${CIRCLED}]`))?.[0];
 	const episode = mark ? CIRCLED.indexOf(mark) + 1 : null;
 	if (!episode) return { notSeries: true };
@@ -141,11 +149,12 @@ function parseColumn(file) {
 	if (excerpt.length > 110) excerpt = excerpt.slice(0, 108).trimEnd() + '…';
 
 	return {
+		series: series.name,
 		episode,
 		date,
 		title: titlePara.text,
 		excerpt,
-		slug: `column-${String(episode).padStart(2, '0')}`,
+		slug: `column-${String(series.offset + episode).padStart(2, '0')}`,
 		markdown: lines.join('\n\n') + '\n',
 	};
 }
@@ -203,7 +212,7 @@ for (const file of files) {
 		`date: '${parsed.date}'`,
 		"read: '4분'",
 		"lang: 'ko'",
-		`series: ${yaml(SERIES)}`,
+		`series: ${yaml(parsed.series)}`,
 		`episode: ${parsed.episode}`,
 		"photo: 'sedona-sunset'",
 		'---',
@@ -212,7 +221,7 @@ for (const file of files) {
 	].join('\n');
 
 	if (!dry) await writeFile(out, front + parsed.markdown, 'utf8');
-	made.push(`${parsed.episode}화 ${parsed.date} — ${parsed.title} → ${parsed.slug}.mdx`);
+	made.push(`${parsed.series} ${parsed.episode}화 ${parsed.date} — ${parsed.title} → ${parsed.slug}.mdx`);
 }
 
 made.sort();
