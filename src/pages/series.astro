@@ -36,7 +36,7 @@ const later = LATER.filter((x) => published.has(x.name));
 		later.toReversed().map((x) => (
 			<section class="later">
 				<div class="section-head"><h2>{x.name}</h2></div>
-				<p class="lede">{x.lede} 신문에 실린 뒤 이곳에 올립니다.</p>
+				<p class="lede">{x.lede} 신문 연재 원고를 이곳에도 올립니다.</p>
 				<SeriesView lang={lang} series={x.name} />
 			</section>
 		))
@@ -45,7 +45,7 @@ const later = LATER.filter((x) => published.has(x.name));
 	<div class="section-head"><h2>{SERIES}</h2></div>
 	<p class="lede">
 		애리조나 한인신문에 매주 연재하는 칼럼입니다. 첫 회에서 잡은 <b>부족액</b>(생활비 −
-		소셜시큐리티)을 회차마다 하나씩 메워 갑니다. 신문에 실린 뒤 이곳에 올립니다.
+		소셜시큐리티)을 회차마다 하나씩 메워 갑니다. 신문 연재 원고를 이곳에도 올립니다.
 	</p>
 	<SeriesView lang={lang} series={SERIES} />
 
