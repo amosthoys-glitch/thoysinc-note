@@ -318,3 +318,5 @@ article .series {
   letter-spacing: .1em;
   color: var(--seal);
 }
+
+.note-disc { margin: 36px 0 0; padding: 14px 18px; border-left: 3px solid var(--rule); background: var(--surface); color: var(--ink-soft); font-size: 14px; line-height: 1.7; }
