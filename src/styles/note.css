@@ -278,6 +278,7 @@ footer.site { background: var(--deep); color: color-mix(in srgb, var(--deep-ink)
 .foot .lic { font-family: var(--mono); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--seal); }
 .foot .disc { max-width: 62ch; line-height: 1.72; }
 .foot .tech { font-family: var(--mono); font-size: 11px; letter-spacing: .09em; color: color-mix(in srgb, var(--deep-ink) 42%, transparent); }
+.foot .tech a { color: inherit; text-decoration: underline; }
 
 .demo-note {
   font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
