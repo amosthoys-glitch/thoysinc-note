@@ -14,6 +14,11 @@ const s = SITE[lang];
 	<div class="foot">
 		<p class="lic">{s.footLic}</p>
 		<p class="disc">{s.footDisc}</p>
+		<p class="disc">
+			{lang === 'ko' ? '함께 운영하는 블로그: ' : 'Also by Thoys: '}
+			<a href="https://life.thoysinc.com/">{lang === 'ko' ? '미국살이 노트 (미국 생활 정보)' : '미국살이 노트 (life in the US, Korean)'}</a>
+			· <a href="https://blog.thoysinc.com/">{lang === 'ko' ? 'IT 블로그' : 'IT blog'}</a>
+		</p>
 		<p class="tech">{s.footTech} · <a href="/privacy/">{lang === 'ko' ? '개인정보처리방침' : 'Privacy Policy'}</a></p>
 	</div>
 </footer>
