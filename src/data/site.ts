@@ -12,7 +12,7 @@ export const SITE = {
 		"title": "은퇴 얘기, 어디서부터 물어봐야 할지 모르겠다면",
 		"lede": "아무것도 몰라도 괜찮습니다. 상품 이름이 아니라 순서부터 알려드립니다. 현직 에이전트가 상담에서 가장 많이 받는 질문들을, 쓰는 단어 그대로 풀어 씁니다.",
 		"cred": [
-			"JUNG, MYONGAH",
+			"Myongah Jung",
 			"라이선스 <b>17104273</b>",
 			"영업 주 <b>애리조나</b>"
 		],
@@ -29,7 +29,7 @@ export const SITE = {
 		"navPosts": "글",
 		"navGloss": "용어 사전",
 		"tipKicker": "용어",
-		"footLic": "JUNG, MYONGAH · 라이선스 번호 17104273 · 영업 가능 주: 애리조나(AZ) · 생명보험 · 고정/인덱스 연금 · 401(k) · IRA · Roth IRA · 사업주 절세 플랜",
+		"footLic": "Myongah Jung · 라이선스 번호 17104273 · 영업 가능 주: 애리조나(AZ) · 생명보험 · 고정/인덱스 연금 · 401(k) · IRA · Roth IRA · 사업주 절세 플랜",
 		"footDisc": "이 사이트의 글은 일반적인 정보 제공을 목적으로 하며, 특정 상품의 청약 권유나 개인별 보험·세무·법률 조언이 아닙니다. 실제 보장 내용과 지급 여부는 발행된 보험증서와 플랜 문서의 약관에 따릅니다. 취급 상품은 개인 생명보험과 고정·인덱스 연금이며, 단체보험과 변액연금·뮤추얼펀드 등 증권 상품은 취급하지 않고 투자 자문도 제공하지 않습니다. 은퇴 플랜과 절세 구조는 설계와 관리를 지원하는 것이며, 세무 판단은 반드시 담당 회계사·세무사와 확인하시기 바랍니다.",
 		"footTech": "Astro · Azure Static Web Apps · 한국어 / English"
 	},
@@ -39,7 +39,7 @@ export const SITE = {
 		"title": "If you don't even know what to ask yet",
 		"lede": "Knowing nothing about this is fine. We start with the order of operations, not the product names — the questions people actually bring to a first meeting, answered in plain words.",
 		"cred": [
-			"JUNG, MYONGAH",
+			"Myongah Jung",
 			"License <b>17104273</b>",
 			"Licensed in <b>Arizona</b>"
 		],
@@ -56,7 +56,7 @@ export const SITE = {
 		"navPosts": "Notes",
 		"navGloss": "Glossary",
 		"tipKicker": "Term",
-		"footLic": "JUNG, MYONGAH · License 17104273 · Licensed in Arizona · Life insurance · Fixed and indexed annuities · 401(k) · IRA · Roth IRA · Business tax planning",
+		"footLic": "Myongah Jung · License 17104273 · Licensed in Arizona · Life insurance · Fixed and indexed annuities · 401(k) · IRA · Roth IRA · Business tax planning",
 		"footDisc": "The articles on this site are general information only. They are not an offer to sell, a solicitation, or individualized insurance, tax, or legal advice. Actual coverage and payment are governed by the terms of the issued policy and plan documents. I am licensed for individual life insurance and fixed annuities, including fixed indexed products. I do not offer group insurance, variable annuities, mutual funds, or any other security, and I do not provide investment advice. On retirement plans and tax-advantaged structures I help with design and administration; confirm every tax question with your own CPA or tax attorney.",
 		"footTech": "Astro · Azure Static Web Apps · 한국어 / English"
 	}
