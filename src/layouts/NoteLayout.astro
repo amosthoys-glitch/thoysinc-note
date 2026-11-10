@@ -8,6 +8,7 @@ import Cta from '../components/Cta.astro';
 import { CATS, SITE, type Lang } from '../data/site';
 import { formatDate, slugOf, type Note } from '../lib/notes';
 import { href } from '../lib/urls';
+import { getCollection } from 'astro:content';
 
 interface Props {
 	note: Note;
@@ -16,6 +17,9 @@ const { note } = Astro.props;
 const lang = note.data.lang as Lang;
 const s = SITE[lang];
 const slug = slugOf(note);
+// 반대 언어판이 있는 글만 EN/KO 버튼이 같은 글로 이어집니다. 칼럼은 한국어 전용입니다.
+const altLang = lang === 'ko' ? 'en' : 'ko';
+const hasAlt = (await getCollection('notes', (n) => n.id === `${altLang}/${slug}` && !n.data.draft)).length > 0;
 const catLabel = s.cats[CATS.indexOf(note.data.cat)];
 const back = lang === 'ko' ? '← 목록으로' : '← Back to notes';
 
@@ -29,6 +33,7 @@ const seriesLabel =
 <Base
 	lang={lang}
 	path={slug}
+	hasAlt={hasAlt}
 	section="posts"
 	title={`${note.data.title} — ${s.brand}`}
 	description={note.data.excerpt}
