@@ -23,12 +23,14 @@ const OUT_DIR = join(ROOT, 'src', 'content', 'notes', 'ko');
 const COLUMN_DIR = 'C:\\Users\\AmosJung\\OneDrive - Thoys Inc\\AZ-WEKK';
 
 // 신문 연재는 부제로 구분합니다. 블로그 주소(column-NN)는 연재가 바뀌어도 이어지는
-// 번호를 씁니다: 첫 연재 14화 뒤로 둘째 연재 ①화가 column-15, 셋째 연재 ①화가 column-23.
+// 번호를 씁니다: 첫 연재 14화 뒤로 '세상 이야기로 읽는 은퇴' ①화가 column-15 입니다
+// (2026-11-10 사용자 결정으로 연말 점검 연재보다 먼저 시작, 8회 예정).
 // 연재를 새로 시작하면 여기 한 줄을 더하고 offset 은 앞 연재들의 회차 합으로 둡니다.
+// 연말 점검 연재의 offset 22 는 앞 연재가 8회일 때 기준이니, 회차가 바뀌면 고치십시오.
 const SERIES_LIST = [
 	{ name: '은퇴까지 10년, 매주 한 걸음', offset: 0 },
-	{ name: '한 해를 닫고 새해를 여는 재정 점검', offset: 14 },
-	{ name: '세상 이야기로 읽는 은퇴', offset: 22 },
+	{ name: '세상 이야기로 읽는 은퇴', offset: 14 },
+	{ name: '한 해를 닫고 새해를 여는 재정 점검', offset: 22 },
 ];
 const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳';
 
