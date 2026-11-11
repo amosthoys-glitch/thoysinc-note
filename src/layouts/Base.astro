@@ -24,9 +24,11 @@ interface Props {
 	/** 반대 언어판이 있는지. 없으면(한국어 전용 칼럼 등) 언어 버튼은 반대 언어 첫 화면으로,
 	 *  hreflang 대체 링크는 내보내지 않습니다. */
 	hasAlt?: boolean;
+	/** 검색엔진용 구조화 데이터(JSON-LD). 화면에 보이는 내용과 같아야 합니다. */
+	jsonLd?: Record<string, unknown>;
 }
 
-const { lang, path = '', section, title, description, ogType = 'website', photo, hasAlt = true } = Astro.props;
+const { lang, path = '', section, title, description, ogType = 'website', photo, hasAlt = true, jsonLd } = Astro.props;
 const s = SITE[lang];
 
 const altLang = other(lang);
@@ -70,6 +72,7 @@ const favicon =
 		)}
 		<link rel="icon" href={favicon} />
 		<link rel="sitemap" href={new URL('/sitemap-index.xml', Astro.site)} />
+		<link rel="alternate" type="application/rss+xml" title={s.brand} href={new URL(href(lang) + 'rss.xml', Astro.site)} />
 		<meta property="og:type" content={ogType} />
 		<meta property="og:site_name" content={s.brand} />
 		<meta property="og:title" content={title} />
@@ -89,6 +92,7 @@ const favicon =
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={cardUrl} />
+		{jsonLd && <script type="application/ld+json" set:html={JSON.stringify({ ...jsonLd, image: [cardUrl.toString()] })} />}
 	</head>
 	<body>
 		<StickyBar lang={lang} altHref={altHref} section={section} />

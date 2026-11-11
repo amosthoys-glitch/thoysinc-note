@@ -28,6 +28,21 @@ const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳';
 const { series, episode } = note.data;
 const seriesLabel =
 	series && episode ? `${series} ${CIRCLED[episode - 1] ?? episode}` : null;
+const pageUrl = new URL(href(lang, slug), Astro.site).toString();
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	headline: note.data.title,
+	description: note.data.excerpt,
+	datePublished: note.data.date.toISOString().slice(0, 10),
+	inLanguage: lang,
+	url: pageUrl,
+	mainEntityOfPage: pageUrl,
+	articleSection: catLabel,
+	author: { '@type': 'Person', name: 'Myongah Jung', url: new URL(href(lang), Astro.site).toString() },
+	publisher: { '@type': 'Organization', name: 'Thoys Inc', url: 'https://www.thoysinc.com/' },
+	isPartOf: { '@type': 'Blog', name: s.brand, url: new URL(href(lang), Astro.site).toString() },
+};
 ---
 
 <Base
@@ -39,6 +54,7 @@ const seriesLabel =
 	description={note.data.excerpt}
 	ogType="article"
 	photo={note.data.photo}
+	jsonLd={jsonLd}
 >
 	<a class="back" href={href(lang)}>{back}</a>
 	<article>
