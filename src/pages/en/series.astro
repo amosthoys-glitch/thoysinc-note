@@ -2,11 +2,25 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Thoys Inc.
 import Base from '../../layouts/Base.astro';
+import SeriesView from '../../components/SeriesView.astro';
 import { SITE } from '../../data/site';
+import { getNotes } from '../../lib/notes';
 import { href } from '../../lib/urls';
 
 const lang = 'en' as const;
 const s = SITE[lang];
+const SERIES = 'Ten Years to Retirement, One Step a Week';
+
+// Later series. Hidden until their first installment is published in English.
+const LATER = [
+	{
+		name: 'Reading Retirement in a Changing World',
+		lede: 'Starting from changes in the economy, work, education and family, this column takes a fresh look at retirement, life insurance and living benefits.',
+	},
+];
+const published = new Set((await getNotes(lang)).map((n) => n.data.series).filter(Boolean));
+const later = LATER.filter((x) => published.has(x.name));
+const hasMain = published.has(SERIES);
 ---
 
 <Base
@@ -14,27 +28,54 @@ const s = SITE[lang];
 	path="series"
 	section="series"
 	title={`Weekly column — ${s.brand}`}
-	description="A weekly retirement column running in an Arizona Korean-language newspaper. Published in Korean."
+	description="A weekly retirement column from an Arizona Korean-language newspaper, in English translation. It starts from the gap between living costs and Social Security and closes it one step at a time."
 >
-	<div class="section-head"><h2>Weekly column</h2></div>
+	{
+		later.toReversed().map((x) => (
+			<section class="later">
+				<div class="section-head"><h2>{x.name}</h2></div>
+				<p class="lede">{x.lede} Translated from the Korean newspaper column.</p>
+				<SeriesView lang={lang} series={x.name} />
+			</section>
+		))
+	}
+
+	<div class="section-head"><h2>{hasMain ? SERIES : 'Weekly column'}</h2></div>
 	<p class="lede">
 		I write a weekly retirement column for an Arizona Korean-language newspaper. Each installment
-		builds on the gap between what you spend and what Social Security will cover, closing it one
+		builds on <b>the gap</b> (living costs − Social Security) set in the first one, closing it one
 		step at a time.
 	</p>
-	<p class="lede">
-		The column runs in Korean, for a Korean-speaking readership. It is reposted here after it
-		appears in print — <a href={href('ko', 'series')}>read the series in Korean</a>.
-	</p>
-	<p class="lede">
-		The English notes cover the same ground in a different form: <a href={href(lang)}>see all notes</a>.
-	</p>
+	{
+		hasMain ? (
+			<>
+				<p class="lede">
+					The column first runs in Korean; the English versions here are my own translations.{' '}
+					<a href={href('ko', 'series')}>Read the original in Korean</a>.
+				</p>
+				<SeriesView lang={lang} series={SERIES} />
+			</>
+		) : (
+			<>
+				<p class="lede">
+					The column runs in Korean, for a Korean-speaking readership. It is reposted here after it
+					appears in print — <a href={href('ko', 'series')}>read the series in Korean</a>.
+				</p>
+				<p class="lede">
+					The English notes cover the same ground in a different form: <a href={href(lang)}>see all notes</a>.
+				</p>
+			</>
+		)
+	}
 
 	<style>
 		.lede {
 			max-width: 58ch;
-			margin: 20px 0;
+			margin: 20px 0 8px;
 			color: var(--ink-soft);
+		}
+		.later {
+			margin-bottom: 56px;
 		}
 	</style>
 </Base>

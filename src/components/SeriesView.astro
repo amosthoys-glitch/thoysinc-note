@@ -36,7 +36,7 @@ const episodes = (await getNotes(lang))
 	}
 </ol>
 
-{episodes.length === 0 && <p class="empty">아직 공개된 회차가 없습니다.</p>}
+{episodes.length === 0 && <p class="empty">{lang === 'en' ? 'No installments published yet.' : '아직 공개된 회차가 없습니다.'}</p>}
 
 <style>
 	.series-list {
