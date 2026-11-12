@@ -30,6 +30,8 @@ const SUPPLEMENTED = new Set([
 	'en/what-is-an-annuity',
 	'ko/declared-vs-indexed',
 	'en/declared-vs-indexed',
+	'ko/401k-ira-roth',
+	'en/401k-ira-roth',
 ]);
 
 /** 태그를 걷어낸 순수 텍스트.
