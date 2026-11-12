@@ -32,6 +32,8 @@ const SUPPLEMENTED = new Set([
 	'en/declared-vs-indexed',
 	'ko/401k-ira-roth',
 	'en/401k-ira-roth',
+	'ko/retirement-where-to-start',
+	'en/retirement-where-to-start',
 ]);
 
 /** 태그를 걷어낸 순수 텍스트.
