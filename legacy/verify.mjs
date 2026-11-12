@@ -36,6 +36,10 @@ const SUPPLEMENTED = new Set([
 	'en/retirement-where-to-start',
 	'ko/beneficiary-beats-will',
 	'en/beneficiary-beats-will',
+	'ko/term-vs-whole-life',
+	'en/term-vs-whole-life',
+	'ko/business-owner-structures',
+	'en/business-owner-structures',
 ]);
 
 /** 태그를 걷어낸 순수 텍스트.
