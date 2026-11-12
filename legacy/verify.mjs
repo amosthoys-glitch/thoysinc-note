@@ -21,6 +21,17 @@ const SLUGS = [
 	'business-owner-structures',
 ];
 
+// 원본 뒤에 보충 단락을 덧붙인 글 (2026-11-11 사용자 결정 "고칠 수 있는 거 고쳐봐").
+// 이 글들은 원본 본문이 한 글자도 빠짐없이 맨 앞에 그대로 있어야 통과합니다.
+// 원본 중간을 고치거나 지우면 지금처럼 불일치로 잡히고, 끝에 더한 내용만 허용됩니다.
+// 제목·발췌·카테고리·날짜·읽는 시간은 다른 글과 똑같이 원본과 같아야 합니다.
+const SUPPLEMENTED = new Set([
+	'ko/what-is-an-annuity',
+	'en/what-is-an-annuity',
+	'ko/declared-vs-indexed',
+	'en/declared-vs-indexed',
+]);
+
 /** 태그를 걷어낸 순수 텍스트.
  *  공백은 전부 제거합니다 — 원본은 블록 사이에 공백이 없고 새 마크업은 있어서,
  *  공백을 남기면 무해한 차이가 전부 불일치로 잡힙니다. 글자 유실은 그대로 잡힙니다. */
@@ -32,6 +43,7 @@ function plain(html) {
 }
 
 let pass = 0;
+let supplemented = 0;
 const fails = [];
 
 for (const lang of ['ko', 'en']) {
@@ -59,6 +71,11 @@ for (const lang of ['ko', 'en']) {
 
 		if (want === got) {
 			pass++;
+			continue;
+		}
+		if (SUPPLEMENTED.has(`${lang}/${slug}`) && got.startsWith(want)) {
+			pass++;
+			supplemented++;
 			continue;
 		}
 
@@ -98,6 +115,7 @@ for (const lang of ['ko', 'en']) {
 }
 
 console.log(`본문 일치: ${pass}/14`);
+if (supplemented) console.log(`  (그중 ${supplemented}편은 원본 본문 그대로 + 끝에 보충 단락)`);
 if (fails.length) {
 	console.log(`\n불일치 ${fails.length}건:`);
 	for (const f of fails) console.log('  - ' + f);
