@@ -35,7 +35,12 @@ const altLang = other(lang);
 const altHref = hasAlt ? href(altLang, path) : href(altLang);
 const selfHref = href(lang, path);
 
-const canonical = new URL(selfHref, Astro.site);
+// 미리보기 사본(github.io)은 운영 주소(www.thoysinc.com)를 원본으로 가리킵니다.
+const isPreview = import.meta.env.PUBLIC_NOINDEX === 'true';
+const BASE_PREFIX = ('/' + import.meta.env.BASE_URL + '/').replace(/\/+/g, '/');
+const canonical = isPreview
+	? new URL(href(lang, path).replace(BASE_PREFIX, '/'), 'https://www.thoysinc.com')
+	: new URL(selfHref, Astro.site);
 const altUrl = new URL(altHref, Astro.site);
 
 // 공유 카드용으로 1200x630 을 미리 만들어 둡니다. 원본은 2MB 안팎이라 그대로 쓰면 안 됩니다.
@@ -60,7 +65,8 @@ const favicon =
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<meta name="naver-site-verification" content="15f7ba4bcbe2075a521e794842aa1fd8961dc626" />
-		<meta name="google-adsense-account" content="ca-pub-1192328371285794" />
+		{/* GitHub Pages 미리보기 사본에는 애드센스 표시를 내보내지 않습니다 (2026-11-12 복제 콘텐츠 거절). */}
+		{import.meta.env.PUBLIC_NOINDEX !== 'true' && <meta name="google-adsense-account" content="ca-pub-1192328371285794" />}
 		<meta name="author" content="Myongah Jung" />
 		<link rel="canonical" href={canonical} />
 		{hasAlt && (
