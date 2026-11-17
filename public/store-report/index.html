@@ -2,6 +2,11 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<script>
+// 서버가 /store-report (끝에 / 없음)도 그대로 보여 주는데, 그러면 img/... 가 /img/... 로 풀려 그림이 깨집니다.
+// 끝에 / 를 붙인 주소로 바로 옮깁니다.
+if (!/\/$|\.html$/.test(location.pathname)) location.replace(location.pathname + '/' + location.search + location.hash);
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Store Report for Clover</title>
 <meta name="description" content="Clover POS 데이터로 디저트 가게의 폐기, 메뉴별 남는 돈, 토핑 부착률, 채널별 순이익, 시간대 인력, 날씨까지 매일 아침 한 장으로.">
