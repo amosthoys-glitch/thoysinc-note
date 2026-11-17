@@ -18,5 +18,11 @@ export default defineConfig({
 	site,
 	base,
 	trailingSlash: 'always',
-	integrations: [mdx(), sitemap()],
+	integrations: [
+		mdx(),
+		sitemap({
+			// public/ 의 손으로 만든 페이지는 sitemap 이 자동으로 찾지 못해 직접 넣습니다.
+			customPages: [new URL(`${base.replace(/\/?$/, '/')}store-report/`, site).href],
+		}),
+	],
 });
