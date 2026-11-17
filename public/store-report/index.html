@@ -118,14 +118,15 @@ section.band.alt .card{background:var(--bg)}
 .card .ex b{color:var(--berry)}
 
 /* screens */
-.screens{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:22px;align-items:start}
+.screens{display:grid;grid-template-columns:minmax(0,1fr);gap:28px}
+.screens ul.checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.screens ul.checks{grid-template-columns:minmax(0,1fr)}}
 .shot{margin:0;display:flex;flex-direction:column;gap:10px}
-.shot img{display:block;width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:var(--shadow);background:#fff}
+.shot img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);box-shadow:var(--shadow);background:#fff}
 .shot figcaption{font-size:14px;color:var(--muted)}
-.phones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+.phones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,3vw,40px);margin:36px auto 0;max-width:900px}
 .phones img{border-radius:22px;border:6px solid var(--ink)}
 .screens .note{font-size:14px;color:var(--muted);margin-top:16px}
-@media (max-width:860px){.screens{grid-template-columns:minmax(0,1fr)}}
 
 /* steps */
 ol.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:s}
