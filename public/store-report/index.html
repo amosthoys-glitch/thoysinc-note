@@ -401,6 +401,33 @@ footer a{color:var(--muted)}
 </footer>
 
 <script>
+// 방문 통계: thoysinc.com 다른 페이지와 같은 Application Insights(appi-thoysinc-note)로 보냅니다.
+// 쿠키를 쓰지 않아 동의 배너가 필요 없습니다. 원본: thoysinc-note src/scripts/analytics.ts
+(function(){
+  var KEY = 'e981b35b-c66a-4737-b998-7be12a1a9ffd';
+  var URL_ = 'https://centralus-2.in.applicationinsights.azure.com/v2/track';
+  var sid = Math.random().toString(36).slice(2, 12);
+  function send(type, baseData){
+    var body = JSON.stringify({
+      name: 'Microsoft.ApplicationInsights.' + KEY.replace(/-/g, '') + '.' + (type === 'PageViewData' ? 'PageView' : 'Event'),
+      time: new Date().toISOString(), iKey: KEY,
+      tags: { 'ai.operation.name': location.pathname, 'ai.session.id': sid, 'ai.device.type': 'Browser' },
+      data: { baseType: type, baseData: Object.assign({ ver: 2 }, baseData) }
+    });
+    try {
+      fetch(URL_, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true })
+        .catch(function(){ if (navigator.sendBeacon) navigator.sendBeacon(URL_, new Blob([body], { type: 'text/plain;charset=UTF-8' })); });
+    } catch (e) {}
+  }
+  window.srTrack = {
+    page: function(){ send('PageViewData', { name: document.title, url: location.href, duration: '00:00:00.000',
+      properties: { lang: document.documentElement.lang, referrer: document.referrer || '(direct)' } }); },
+    event: function(name, props){ send('EventData', { name: name, properties: Object.assign({ page: location.pathname, lang: document.documentElement.lang }, props || {}) }); }
+  };
+})();
+</script>
+
+<script>
 (function(){
   var T = {
     en: {
@@ -533,6 +560,7 @@ footer a{color:var(--muted)}
   try { start = localStorage.getItem('sr-lang') || ''; } catch (e) { start = ''; }
   if (!start) { var nl = (navigator.language || 'ko').slice(0,2); start = T[nl] ? nl : (nl === 'ko' ? 'ko' : 'en'); }
   apply(start);
+  if (window.srTrack) srTrack.page();
 
   // 시연 신청서 → Web3Forms → 운영자 메일함
   var ACCESS_KEY = 'e1003a6e-e369-42fc-a82e-2fc405cf90e7';
@@ -557,7 +585,7 @@ footer a{color:var(--muted)}
     btn.disabled = true; say('st-sending');
     fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
       .then(function(r){ return r.json().catch(function(){ return {}; }); })
-      .then(function(j){ if (j && j.success) { form.reset(); say('st-ok', 'ok'); } else { say('st-err', 'err'); } })
+      .then(function(j){ if (j && j.success) { form.reset(); say('st-ok', 'ok'); if (window.srTrack) srTrack.event('demo_request_sent', { business_type: data.business_type, uses_clover: data.uses_clover }); } else { say('st-err', 'err'); } })
       .catch(function(){ say('st-err', 'err'); })
       .then(function(){ btn.disabled = false; });
   });
