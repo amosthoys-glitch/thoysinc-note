@@ -160,6 +160,24 @@ ul.checks span{color:var(--muted);font-size:15px}
 .final .btn.primary{background:var(--bg);color:var(--ink);border-color:var(--bg)}
 .final .soon{font-size:14px;margin-top:16px;opacity:.75}
 @media (max-width:760px){.final .box{grid-template-columns:minmax(0,1fr)}}
+.final .box.has-form{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:start}
+@media (max-width:860px){.final .box.has-form{grid-template-columns:minmax(0,1fr)}}
+form.demo{background:var(--surface);color:var(--ink);border-radius:14px;padding:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 16px}
+form.demo .full{grid-column:1/-1}
+form.demo label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:600;color:var(--ink)}
+form.demo label .opt{font-weight:400;color:var(--muted)}
+form.demo input,form.demo select,form.demo textarea{font:400 15.5px var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px;width:100%;min-width:0}
+form.demo textarea{min-height:84px;resize:vertical}
+form.demo input:focus,form.demo select:focus,form.demo textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+form.demo .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+form.demo .send{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+form.demo .send .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+form.demo .send .btn[disabled]{opacity:.6;cursor:wait}
+form.demo .privacy{font-size:12.5px;color:var(--muted);font-weight:400}
+.form-status{font-size:14.5px;font-weight:600;border-radius:9px;padding:10px 12px}
+.form-status.ok{background:var(--accent-soft);color:var(--accent)}
+.form-status.err{background:var(--berry-soft);color:var(--berry)}
+@media (max-width:560px){form.demo{grid-template-columns:minmax(0,1fr)}}
 
 footer{padding-block:28px 48px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
 footer .wrap{display:flex;flex-direction:column;gap:8px}
@@ -193,7 +211,7 @@ footer a{color:var(--muted)}
       <h1 data-t="h1">Clover 매출을 매일 아침 <em>한 장의 리포트</em>로</h1>
       <p class="lede" data-t="lede">버린 케이크, 메뉴별로 실제 남는 돈, 직원별 토핑 판매, 배달 수수료를 뺀 순이익까지. Clover 기본 리포트에 없는 숫자를 휴대폰 한 화면에 모아 드립니다.</p>
       <div class="cta-row">
-        <a class="btn primary" href="https://thoysinc.com" target="_blank" rel="noopener" data-t="cta1">우리 매장 데이터로 시연 신청</a>
+        <a class="btn primary" href="#demo" data-t="cta1">우리 매장 데이터로 시연 신청</a>
         <a class="btn ghost" href="#reports" data-t="cta2">무엇이 보이나요?</a>
       </div>
       <p class="fine" data-t="fine">Clover에는 읽기 전용 키로만 연결합니다. 가격·메뉴·결제는 바꿀 수 없습니다.</p>
@@ -334,13 +352,41 @@ footer a{color:var(--muted)}
 
 <section class="final">
   <div class="wrap">
-    <div class="box">
+    <div class="box has-form" id="demo">
       <div>
         <h2 data-t="f-h2">우리 매장 숫자로 직접 보세요</h2>
         <p data-t="f-p">노트북 한 대로 30분 안에 시연합니다. 데이터는 시연이 끝나면 지웁니다.</p>
+        <p data-t="f-p2">아래 신청서를 보내 주시면 직접 연락드려 시간을 잡겠습니다.</p>
         <p class="soon" data-t="f-soon">헤어샵·네일샵용 리포트도 준비 중입니다.</p>
       </div>
-      <a class="btn primary" href="https://thoysinc.com" target="_blank" rel="noopener" data-t="f-cta">thoysinc.com에서 신청</a>
+      <form class="demo" id="demo-form" novalidate>
+        <label for="f-store"><span data-t="l-store">매장 이름</span><input id="f-store" name="store" required autocomplete="organization"></label>
+        <label for="f-name"><span data-t="l-name">이름</span><input id="f-name" name="name" required autocomplete="name"></label>
+        <label for="f-email"><span data-t="l-email">이메일</span><input id="f-email" name="email" type="email" required autocomplete="email"></label>
+        <label for="f-phone"><span><span data-t="l-phone">전화</span> <span class="opt" data-t="l-opt">(선택)</span></span><input id="f-phone" name="phone" type="tel" autocomplete="tel"></label>
+        <label for="f-type"><span data-t="l-type">업종</span>
+          <select id="f-type" name="business_type">
+            <option value="dessert" data-t="o-dessert">디저트·베이커리</option>
+            <option value="cafe" data-t="o-cafe">카페</option>
+            <option value="restaurant" data-t="o-rest">음식점</option>
+            <option value="salon" data-t="o-salon">헤어·네일</option>
+            <option value="other" data-t="o-other">기타</option>
+          </select></label>
+        <label for="f-clover"><span data-t="l-clover">Clover POS 사용</span>
+          <select id="f-clover" name="uses_clover">
+            <option value="yes" data-t="o-yes">사용 중</option>
+            <option value="no" data-t="o-no">사용 안 함</option>
+            <option value="unsure" data-t="o-unsure">잘 모름</option>
+          </select></label>
+        <label class="full" for="f-when"><span><span data-t="l-when">연락받기 편한 시간</span> <span class="opt" data-t="l-opt">(선택)</span></span><input id="f-when" name="best_time" data-tph="ph-when" placeholder="예: 평일 오후 2~4시"></label>
+        <label class="full" for="f-msg"><span><span data-t="l-msg">남길 말</span> <span class="opt" data-t="l-opt">(선택)</span></span><textarea id="f-msg" name="message" data-tph="ph-msg" placeholder="매장 위치, 궁금한 점 등"></textarea></label>
+        <label class="hp" aria-hidden="true">Leave empty<input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label>
+        <div class="full send">
+          <button type="submit" class="btn primary" id="f-submit" data-t="f-send">시연 신청 보내기</button>
+          <span class="privacy" data-t="f-privacy">보내 주신 정보는 시연 연락에만 쓰고 다른 곳에 넘기지 않습니다.</span>
+        </div>
+        <div class="full form-status" id="f-status" role="status" aria-live="polite" hidden></div>
+      </form>
     </div>
   </div>
 </section>
@@ -399,7 +445,12 @@ footer a{color:var(--muted)}
       k2b:"Cloud server", k2:"Paid by the store directly, e.g. DigitalOcean", k2p:"About $6/mo",
       k3b:"Clover", k3:"Your current plan (some reports depend on the plan)", k3p:"No change",
       "f-h2":"See it with your own store's numbers", "f-p":"We demo on one laptop in about 30 minutes. The data is deleted afterwards.",
-      "f-soon":"Reports for hair and nail salons are on the way.", "f-cta":"Book at thoysinc.com",
+      "f-soon":"Reports for hair and nail salons are on the way.", "f-p2":"Send the form below and we'll contact you to set a time.",
+      "l-store":"Store name", "l-name":"Your name", "l-email":"Email", "l-phone":"Phone", "l-opt":"(optional)", "l-type":"Business type", "l-clover":"Uses Clover POS",
+      "o-dessert":"Dessert \u00b7 bakery", "o-cafe":"Caf\u00e9", "o-rest":"Restaurant", "o-salon":"Hair \u00b7 nail salon", "o-other":"Other", "o-yes":"Yes", "o-no":"No", "o-unsure":"Not sure",
+      "l-when":"Best time to reach you", "l-msg":"Message", "ph-when":"e.g. weekdays 2\u20134 pm", "ph-msg":"Store location, questions, etc.",
+      "f-send":"Send demo request", "f-privacy":"We use this only to contact you about the demo and never share it.",
+      "st-need":"Please fill in store name, your name and a valid email.", "st-sending":"Sending\u2026", "st-ok":"Thank you. Your request has been sent; we'll contact you soon.", "st-err":"Sending failed. Please try again in a moment.",
       legal:"Clover is a trademark of Fiserv, Inc. Store Report is not affiliated with or endorsed by Fiserv or Clover. Other company and product names are trademarks of their owners.",
       wx:"Weather data: Open-Meteo.com (CC BY 4.0) · Stores and numbers on screen are demo data."
     },
@@ -445,7 +496,12 @@ footer a{color:var(--muted)}
       k2b:"Máy chủ đám mây", k2:"Tiệm trả trực tiếp, ví dụ DigitalOcean", k2p:"Khoảng $6/tháng",
       k3b:"Clover", k3:"Giữ gói hiện tại (một số báo cáo tùy gói)", k3p:"Không thêm",
       "f-h2":"Xem bằng chính số liệu của tiệm bạn", "f-p":"Demo trên một laptop trong khoảng 30 phút. Dữ liệu được xóa sau đó.",
-      "f-soon":"Báo cáo cho tiệm tóc và tiệm nail đang được chuẩn bị.", "f-cta":"Đăng ký tại thoysinc.com",
+      "f-soon":"Báo cáo cho tiệm tóc và tiệm nail đang được chuẩn bị.", "f-p2":"Gửi mẫu đăng ký bên dưới, chúng tôi sẽ liên hệ để hẹn giờ.",
+      "l-store":"Tên tiệm", "l-name":"Họ tên", "l-email":"Email", "l-phone":"Điện thoại", "l-opt":"(không bắt buộc)", "l-type":"Loại hình", "l-clover":"Dùng Clover POS",
+      "o-dessert":"Bánh ngọt \u00b7 tiệm bánh", "o-cafe":"Quán cà phê", "o-rest":"Nhà hàng", "o-salon":"Tiệm tóc \u00b7 nail", "o-other":"Khác", "o-yes":"Đang dùng", "o-no":"Không dùng", "o-unsure":"Không rõ",
+      "l-when":"Thời gian tiện liên lạc", "l-msg":"Lời nhắn", "ph-when":"VD: ngày thường 2\u20134 giờ chiều", "ph-msg":"Địa chỉ tiệm, câu hỏi…",
+      "f-send":"Gửi đăng ký demo", "f-privacy":"Thông tin chỉ dùng để liên hệ về buổi demo và không chia sẻ cho bên khác.",
+      "st-need":"Vui lòng nhập tên tiệm, họ tên và email hợp lệ.", "st-sending":"Đang gửi…", "st-ok":"Cảm ơn bạn. Đăng ký đã được gửi, chúng tôi sẽ sớm liên hệ.", "st-err":"Gửi không thành công. Vui lòng thử lại sau ít phút.",
       legal:"Clover là nhãn hiệu của Fiserv, Inc. Store Report không liên kết với và không được Fiserv hay Clover bảo trợ. Các tên công ty, sản phẩm khác là nhãn hiệu của chủ sở hữu.",
       wx:"Dữ liệu thời tiết: Open-Meteo.com (CC BY 4.0) · Tiệm và số liệu trên màn hình là dữ liệu demo."
     }
@@ -453,11 +509,20 @@ footer a{color:var(--muted)}
   var nodes = document.querySelectorAll('[data-t]');
   var ko = {};
   nodes.forEach(function(n){ ko[n.getAttribute('data-t')] = n.innerHTML; });
+  ko["st-need"] = "매장 이름, 이름, 올바른 이메일을 넣어 주세요.";
+  ko["st-sending"] = "보내는 중…";
+  ko["st-ok"] = "고맙습니다. 신청이 접수됐습니다. 곧 연락드리겠습니다.";
+  ko["st-err"] = "보내지 못했습니다. 잠시 뒤 다시 시도해 주세요.";
+  var phs = document.querySelectorAll('[data-tph]');
+  phs.forEach(function(n){ ko[n.getAttribute('data-tph')] = n.getAttribute('placeholder'); });
   T.ko = ko;
+  var cur = 'ko';
   var titles = {ko:"Store Report for Clover", en:"Store Report for Clover", vi:"Store Report for Clover"};
   function apply(lang){
     var d = T[lang] || ko;
     nodes.forEach(function(n){ var k = n.getAttribute('data-t'); if (d[k] != null) n.innerHTML = d[k]; });
+    phs.forEach(function(n){ var k = n.getAttribute('data-tph'); if (d[k] != null) n.setAttribute('placeholder', d[k]); });
+    cur = lang;
     document.documentElement.lang = lang;
     document.querySelectorAll('.langs button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
     document.title = titles[lang];
@@ -468,6 +533,34 @@ footer a{color:var(--muted)}
   try { start = localStorage.getItem('sr-lang') || ''; } catch (e) { start = ''; }
   if (!start) { var nl = (navigator.language || 'ko').slice(0,2); start = T[nl] ? nl : (nl === 'ko' ? 'ko' : 'en'); }
   apply(start);
+
+  // 시연 신청서 → Web3Forms → 운영자 메일함
+  var ACCESS_KEY = 'e1003a6e-e369-42fc-a82e-2fc405cf90e7';
+  var form = document.getElementById('demo-form');
+  var status = document.getElementById('f-status');
+  var btn = document.getElementById('f-submit');
+  function say(key, cls){ var d = T[cur] || ko; status.hidden = false; status.className = 'full form-status ' + (cls || ''); status.textContent = d[key] || ko[key]; }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = form.elements;
+    var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim());
+    if (!f.store.value.trim() || !f.name.value.trim() || !emailOk) { say('st-need', 'err'); return; }
+    var data = {
+      access_key: ACCESS_KEY,
+      subject: '[Store Report] 시연 신청: ' + f.store.value.trim(),
+      from_name: 'Store Report 사이트',
+      store: f.store.value.trim(), name: f.name.value.trim(), email: f.email.value.trim(),
+      phone: f.phone.value.trim(), business_type: f.business_type.value, uses_clover: f.uses_clover.value,
+      best_time: f.best_time.value.trim(), message: f.message.value.trim(), page_language: cur,
+      botcheck: f.botcheck.checked
+    };
+    btn.disabled = true; say('st-sending');
+    fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
+      .then(function(r){ return r.json().catch(function(){ return {}; }); })
+      .then(function(j){ if (j && j.success) { form.reset(); say('st-ok', 'ok'); } else { say('st-err', 'err'); } })
+      .catch(function(){ say('st-err', 'err'); })
+      .then(function(){ btn.disabled = false; });
+  });
 })();
 </script>
 
