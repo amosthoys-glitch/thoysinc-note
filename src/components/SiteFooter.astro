@@ -18,6 +18,7 @@ const s = SITE[lang];
 			{lang === 'ko' ? '함께 운영하는 블로그: ' : 'Also by Thoys: '}
 			<a href="https://life.thoysinc.com/">{lang === 'ko' ? '미국살이 노트 (미국 생활 정보)' : '미국살이 노트 (life in the US, Korean)'}</a>
 			· <a href="https://blog.thoysinc.com/">{lang === 'ko' ? 'IT 블로그' : 'IT blog'}</a>
+			· <a href={lang === 'ko' ? 'https://app.thoysinc.com/' : 'https://app.thoysinc.com/en/'}>{lang === 'ko' ? '가늠 (가계부·가게 장부 앱)' : 'Ganeum (budget & shop-ledger app)'}</a>
 		</p>
 		<p class="tech">{s.footTech} · <a href="/privacy/">{lang === 'ko' ? '개인정보처리방침' : 'Privacy Policy'}</a></p>
 	</div>
