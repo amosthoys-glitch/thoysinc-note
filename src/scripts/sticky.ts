@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 // 마스트헤드를 지나면 상단 바가 내려옵니다.
 const sticky = document.getElementById('sticky');

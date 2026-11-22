@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 // @ts-check
 import mdx from '@astrojs/mdx';

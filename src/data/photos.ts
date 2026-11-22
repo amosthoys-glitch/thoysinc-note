@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 // 글머리·소셜 카드에 쓰는 사진.
 //

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 // 마스트헤드 기요셰 — 증권 각인 문양. 원본 index.html 에서 그대로 옮겼습니다.
 const cv = document.getElementById('guilloche') as HTMLCanvasElement | null;

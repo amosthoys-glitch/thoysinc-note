@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 // Azure Application Insights 연결 문자열.
 //

@@ -1,6 +1,6 @@
 # 글·이미지 저작권 (Content License)
 
-Copyright (c) 2026 Thoys Inc. / Jongmin (Amos) Jung. All rights reserved.
+Copyright (c) 2026 Jongmin (Amos) Jung. All rights reserved.
 
 이 저장소의 **글과 이미지**는 코드와 라이선스가 다르다.
 

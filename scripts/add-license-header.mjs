@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 // 사이트 코드 맨 위에 라이선스 표시를 넣는다.
 //
@@ -19,7 +19,7 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.slice(1
 const WRITE = process.argv.includes("--write");
 const MARK = "SPDX-License-Identifier";
 
-const LINES = ["SPDX-License-Identifier: MIT", "Copyright (c) 2026 Thoys Inc."];
+const LINES = ["SPDX-License-Identifier: MIT", "Copyright (c) 2026 Jongmin (Amos) Jung"];
 
 // 확장자별 주석 모양. 여기 없는 것은 손대지 않는다 — 형식을 잘못 짚으면 파일이 깨진다.
 const STYLE = {

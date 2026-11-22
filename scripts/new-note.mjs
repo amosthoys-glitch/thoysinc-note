@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 #!/usr/bin/env node
 // 새 글을 한국어/영어 짝으로 만듭니다. 두 파일이 같은 slug 를 쓰면

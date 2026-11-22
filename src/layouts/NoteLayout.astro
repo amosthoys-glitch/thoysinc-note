@@ -1,6 +1,6 @@
 ---
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 import Base from './Base.astro';
 import Art from '../components/Art.astro';
 import Photo from '../components/Photo.astro';
@@ -40,7 +40,7 @@ const jsonLd = {
 	mainEntityOfPage: pageUrl,
 	articleSection: catLabel,
 	author: { '@type': 'Person', name: 'Myongah Jung', url: new URL(href(lang), Astro.site).toString() },
-	publisher: { '@type': 'Organization', name: 'Thoys Inc', url: 'https://www.thoysinc.com/' },
+	publisher: { '@type': 'Organization', name: 'Thoys', url: 'https://www.thoysinc.com/' },
 	isPartOf: { '@type': 'Blog', name: s.brand, url: new URL(href(lang), Astro.site).toString() },
 };
 ---

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 // 글마다 하나씩 대응하는 표지 도식. 글자가 없어 두 언어가 그대로 공유합니다.
 export const ART: string[] = [

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 // 원본 index.html 에서 이관. 본문 용어 자동 표시와 용어사전 페이지가 함께 씁니다.
 export type GlossEntry = { alt: string; def: string };

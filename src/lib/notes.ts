@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2026 Thoys Inc.
+// Copyright (c) 2026 Jongmin (Amos) Jung
 
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Lang } from '../data/site';
