@@ -1,6 +1,8 @@
 {
   "responseOverrides": {
-    "404": { "rewrite": "/404.html" }
+    "404": {
+      "rewrite": "/404.html"
+    }
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
@@ -10,5 +12,12 @@
   "mimeTypes": {
     ".json": "application/json",
     ".webmanifest": "application/manifest+json"
-  }
+  },
+  "routes": [
+    {
+      "route": "/en/privacy/",
+      "redirect": "/privacy/",
+      "statusCode": 301
+    }
+  ]
 }
