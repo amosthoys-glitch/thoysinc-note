@@ -26,9 +26,11 @@ interface Props {
 	hasAlt?: boolean;
 	/** 검색엔진용 구조화 데이터(JSON-LD). 화면에 보이는 내용과 같아야 합니다. */
 	jsonLd?: Record<string, unknown>;
+	/** 글 페이지: 마스트헤드를 한 줄로 줄입니다(사이트 소개 h1 없음). */
+	compactMasthead?: boolean;
 }
 
-const { lang, path = '', section, title, description, ogType = 'website', photo, hasAlt = true, jsonLd } = Astro.props;
+const { lang, path = '', section, title, description, ogType = 'website', photo, hasAlt = true, jsonLd, compactMasthead = false } = Astro.props;
 const s = SITE[lang];
 
 const altLang = other(lang);
@@ -112,7 +114,7 @@ const favicon =
 	</head>
 	<body>
 		<StickyBar lang={lang} altHref={altHref} section={section} />
-		<Masthead lang={lang} altHref={altHref} />
+		<Masthead lang={lang} altHref={altHref} compact={compactMasthead} />
 		<main>
 			<slot />
 		</main>

@@ -88,6 +88,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   position: relative; z-index: 2; max-width: var(--maxw); margin: 0 auto;
   padding: 30px 28px 46px;
 }
+/* 글 페이지: 로고와 언어 버튼 한 줄만 */
+.masthead.compact .inner { padding-top: 16px; padding-bottom: 16px; }
 .mh-top { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
 .mh-mark { display: flex; align-items: center; gap: 11px; }
 .seal-dot {

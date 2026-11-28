@@ -7,12 +7,16 @@ import LangToggle from './LangToggle.astro';
 interface Props {
 	lang: Lang;
 	altHref: string;
+	/** 글 페이지용 한 줄 마스트헤드. 사이트 소개(h1·소개 문단·자격 줄)를 빼서
+	 *  휴대폰 첫 화면에 글 제목이 보이게 하고, h1은 글 제목 하나만 남깁니다(2026-11-27).
+	 *  라이선스 안내는 바닥글(footLic)에 그대로 있습니다. */
+	compact?: boolean;
 }
-const { lang, altHref } = Astro.props;
+const { lang, altHref, compact = false } = Astro.props;
 const s = SITE[lang];
 ---
 
-<header class="masthead">
+<header class:list={["masthead", { compact }]}>
 	<canvas id="guilloche" aria-hidden="true"></canvas>
 	<div class="inner">
 		<div class="mh-top">
@@ -22,6 +26,7 @@ const s = SITE[lang];
 			</div>
 			<LangToggle lang={lang} altHref={altHref} />
 		</div>
+		{!compact && (
 		<div class="mh-body">
 			<div class="eyebrow">{s.eyebrow}</div>
 			<h1>{s.title}</h1>
@@ -30,5 +35,6 @@ const s = SITE[lang];
 				{s.cred.map((c) => <span set:html={c} />)}
 			</div>
 		</div>
+		)}
 	</div>
 </header>
