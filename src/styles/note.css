@@ -277,11 +277,11 @@ article .dek { margin: 0; color: var(--ink-soft); font-size: 17px; }
 /* ---------- footer ------------------------------------------ */
 footer.site { background: var(--deep); color: color-mix(in srgb, var(--deep-ink) 66%, transparent); }
 .foot { max-width: var(--maxw); margin: 0 auto; padding: 44px 28px 58px; font-size: 13px; display: flex; flex-direction: column; gap: 12px; }
-.foot .lic { font-family: var(--mono); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--seal); }
+.foot .lic { font-family: var(--mono); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: color-mix(in srgb, var(--seal) 55%, var(--deep-ink)); }  /* 밝은 화면 seal 그대로는 대비 3.9:1 (2026-11-27) */
 .foot .disc { max-width: 62ch; line-height: 1.72; }
 /* 어두운 바닥글 위 링크: 브라우저 기본 파랑(대비 2.1:1)이 안 보여서 밝은 글자색으로(2026-11-27) */
 .foot .disc a { color: var(--deep-ink); text-decoration: underline; text-underline-offset: 2px; }
-.foot .tech { font-family: var(--mono); font-size: 11px; letter-spacing: .09em; color: color-mix(in srgb, var(--deep-ink) 42%, transparent); }
+.foot .tech { font-family: var(--mono); font-size: 11px; letter-spacing: .09em; color: color-mix(in srgb, var(--deep-ink) 72%, transparent); }
 .foot .tech a { color: color-mix(in srgb, var(--deep-ink) 80%, transparent); text-decoration: underline; text-underline-offset: 2px; }
 
 .demo-note {
